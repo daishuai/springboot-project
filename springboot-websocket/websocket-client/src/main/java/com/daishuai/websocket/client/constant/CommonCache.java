@@ -1,8 +1,5 @@
 package com.daishuai.websocket.client.constant;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author Daishuai
  * @description WebSocket Client Cache
