@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author Daishuai
- * @description TODO
+ * @description WebSocket Client启动类
  * @date 2019/8/10 10:27
  */
 @EnableScheduling

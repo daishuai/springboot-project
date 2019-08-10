@@ -4,7 +4,7 @@ import com.daishuai.websocket.client.converter.KemMessageConverter;
 import com.daishuai.websocket.client.dto.KemWebSocketRequest;
 import com.daishuai.websocket.client.exception.ServiceException;
 import com.daishuai.websocket.client.handler.AbstractStompSessionHandler;
-import com.daishuai.websocket.client.handler.MyStompSessionHandler;
+import com.daishuai.websocket.client.handler.ConnectStompSessionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -96,7 +96,7 @@ public class KemWebSocketClient implements InitializingBean {
             return;
         }
         try {
-            StompSessionHandler sessionHandler = new MyStompSessionHandler();
+            StompSessionHandler sessionHandler = new ConnectStompSessionHandler();
             ListenableFuture<StompSession> listenableFuture = webSocketStompClient.connect(connectUri, handshakeHeaders, connectHeaders, sessionHandler);
             stompSession = listenableFuture.get();
             stompSessionHandlerMap.values().forEach(stompSessionHandler -> {

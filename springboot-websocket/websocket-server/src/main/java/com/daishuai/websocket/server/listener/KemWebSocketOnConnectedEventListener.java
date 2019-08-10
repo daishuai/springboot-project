@@ -10,7 +10,7 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 
 /**
  * @author Daishuai
- * @description TODO
+ * @description WebSocket Connected Listener
  * @date 2019/8/10 11:32
  */
 @Slf4j

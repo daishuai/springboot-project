@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * @author Daishuai
- * @description TODO
+ * @description WebSocket Server Cache
  * @date 2019/8/10 12:13
  */
 public class CommonCache {

@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * @author Daishuai
- * @description TODO
+ * @description 公共缓存
  * @date 2019/8/9 19:28
  */
 public class CommonCache {
