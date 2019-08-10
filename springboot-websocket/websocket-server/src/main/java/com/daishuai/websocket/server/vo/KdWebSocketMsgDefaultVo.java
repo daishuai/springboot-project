@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Daishuai
- * @description TODO
+ * @description WebSocket请求Vo
  * @date 2019/8/10 11:06
  */
 @Data

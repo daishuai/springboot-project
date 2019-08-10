@@ -11,7 +11,7 @@ import javax.validation.ValidationException;
 
 /**
  * @author Daishuai
- * @description TODO
+ * @description WebSocket Connect Listener
  * @date 2019/8/10 11:08
  */
 @Slf4j

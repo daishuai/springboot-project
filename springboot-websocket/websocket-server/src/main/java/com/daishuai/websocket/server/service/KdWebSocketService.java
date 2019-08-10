@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @author Daishuai
- * @description TODO
+ * @description WebSocket Server发送消息
  * @date 2019/8/10 11:07
  */
 public interface KdWebSocketService {

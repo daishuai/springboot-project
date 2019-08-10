@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author Daishuai
- * @description TODO
+ * @description WebSocket Properties
  * @date 2019/8/10 11:04
  */
 @ConfigurationProperties(prefix = "commons.websocket")

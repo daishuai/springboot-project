@@ -2,17 +2,14 @@ package com.daishuai.websocket.server.listener;
 
 import com.daishuai.websocket.server.common.CommonCache;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 
-import javax.validation.ValidationException;
-
 /**
  * @author Daishuai
- * @description TODO
+ * @description WebSocket Connect Listener
  * @date 2019/8/10 11:08
  */
 @Slf4j

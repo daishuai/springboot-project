@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @author Daishuai
- * @description TODO
+ * @description 封装WebSocket请求
  * @date 2019/8/10 13:23
  */
 @Data

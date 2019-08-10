@@ -8,13 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author Daishuai
- * @description TODO
+ * @description DemoController
  * @date 2019/8/10 11:12
  */
 @Slf4j

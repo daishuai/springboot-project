@@ -5,7 +5,7 @@ import org.springframework.web.socket.WebSocketMessage;
 
 /**
  * @author Daishuai
- * @description TODO
+ * @description 封装WebSocket消息
  * @date 2019/8/10 11:06
  */
 @Data

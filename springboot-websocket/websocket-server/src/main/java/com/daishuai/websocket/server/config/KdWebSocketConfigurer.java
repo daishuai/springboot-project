@@ -16,7 +16,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 /**
  * @author Daishuai
- * @description TODO
+ * @description WebSocket Config
  * @date 2019/8/10 11:03
  */
 @Configuration

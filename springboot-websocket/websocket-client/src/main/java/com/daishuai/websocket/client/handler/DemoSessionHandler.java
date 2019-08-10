@@ -9,18 +9,13 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Daishuai
- * @description TODO
+ * @description DemoSessionHandler
  * @date 2019/8/10 13:45
  */
 @Slf4j
 @Component
 public class DemoSessionHandler extends AbstractStompSessionHandler {
     
-    
-    @Override
-    public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-        log.info("DemoSessionHandler afterConnected");
-    }
     
     @Override
     public void handleException(StompSession session, StompCommand command, StompHeaders headers, byte[] payload, Throwable exception) {
