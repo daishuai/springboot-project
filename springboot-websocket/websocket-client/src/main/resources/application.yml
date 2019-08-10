@@ -1,0 +1,7 @@
+server:
+  port: 8081
+
+kem:
+  websocket:
+    server:
+      connectUri: ws://127.0.0.1:8082/ws/stomp
