@@ -1,10 +1,10 @@
 package com.daishuai.websocket.client.service;
 
+import com.daishuai.websocket.client.constant.CommonCache;
 import com.daishuai.websocket.client.converter.KemMessageConverter;
 import com.daishuai.websocket.client.dto.KemWebSocketRequest;
 import com.daishuai.websocket.client.exception.ServiceException;
 import com.daishuai.websocket.client.handler.AbstractStompSessionHandler;
-import com.daishuai.websocket.client.handler.ConnectStompSessionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -14,9 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.annotation.AnnotationBeanNameGenerator;
 import org.springframework.messaging.converter.MessageConverter;
-import org.springframework.messaging.simp.stomp.StompHeaders;
-import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandler;
+import org.springframework.messaging.simp.stomp.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.DefaultManagedTaskScheduler;
 import org.springframework.stereotype.Service;
@@ -31,10 +29,8 @@ import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import javax.websocket.ContainerProvider;
 import javax.websocket.WebSocketContainer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Type;
+import java.util.*;
 
 /**
  * @author Daishuai
@@ -68,6 +64,7 @@ public class KemWebSocketClient implements InitializingBean {
     
     /**
      * 发送消息
+     *
      * @param request
      */
     public void sendMessage(KemWebSocketRequest request) {
@@ -81,6 +78,7 @@ public class KemWebSocketClient implements InitializingBean {
     
     /**
      * 订阅
+     *
      * @param destination
      * @param handler
      */
@@ -137,6 +135,7 @@ public class KemWebSocketClient implements InitializingBean {
     
     /**
      * 是否建立WebSocket连接
+     *
      * @return
      */
     private boolean isConnected() {
@@ -145,6 +144,7 @@ public class KemWebSocketClient implements InitializingBean {
     
     /**
      * 获取beanName
+     *
      * @param clazz
      * @return
      */
@@ -152,5 +152,100 @@ public class KemWebSocketClient implements InitializingBean {
         BeanNameGenerator beanNameGenerator = new AnnotationBeanNameGenerator();
         AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(clazz);
         return beanNameGenerator.generateBeanName(abd, null);
+    }
+    
+    @Scheduled(cron = "0/10 * * * * *")
+    public void heartBeat() {
+        if (isConnected()) {
+            Map<String, Object> request = new HashMap<>();
+            request.put("timestamp", System.currentTimeMillis());
+            request.put("incidentCode", "c665d8c2cf8c4726980b0d135b684b22");
+            request.put("userId", clientId);
+            request.put("type", "wsxx");
+            
+            stompSession.send("/ws/heartBeat/ping", request);
+        }
+    }
+    
+    class ConnectStompSessionHandler extends StompSessionHandlerAdapter {
+        
+        private long lastTime;
+        
+        /**
+         * Invoked when the session is ready to use, i.e. after the underlying
+         * transport (TCP, WebSocket) is connected and a STOMP CONNECTED frame is
+         * received from the broker.
+         *
+         * @param session          the client STOMP session
+         * @param connectedHeaders the STOMP CONNECTED frame headers
+         */
+        @Override
+        public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
+            lastTime = System.currentTimeMillis();
+            //与服务端建立连接
+            CommonCache.isConnect = true;
+            log.info("连接成功");
+        }
+        
+        /**
+         * Invoked before {@link #handleFrame(StompHeaders, Object)} to determine the
+         * type of Object the payload should be converted to.
+         *
+         * @param headers the headers of a message
+         */
+        @Override
+        public Type getPayloadType(StompHeaders headers) {
+            log.info("getPayloadType ");
+            return String.class;
+        }
+        
+        /**
+         * Handle a STOMP frame with the payload converted to the target type returned
+         * from {@link #getPayloadType(StompHeaders)}.
+         *
+         * @param headers the headers of the frame
+         * @param payload the payload or {@code null} if there was no payload
+         */
+        @Override
+        public void handleFrame(StompHeaders headers, Object payload) {
+            log.info("handleFrame,payload:{}", payload);
+        }
+        
+        /**
+         * Handle any exception arising while processing a STOMP frame such as a
+         * failure to convert the payload or an unhandled exception in the
+         * application {@code StompFrameHandler}.
+         *
+         * @param session   the client STOMP session
+         * @param command   the STOMP command of the frame
+         * @param headers   the headers
+         * @param payload   the raw payload
+         * @param exception the exception
+         */
+        @Override
+        public void handleException(StompSession session, StompCommand command, StompHeaders headers, byte[] payload, Throwable exception) {
+            CommonCache.isConnect = session.isConnected();
+            log.info("handleException 出错：{}", exception.getMessage(), exception);
+            log.info("handleException距上次建立连接时间间隔：{}秒", (System.currentTimeMillis() - lastTime) / 1000);
+        }
+        
+        /**
+         * Handle a low level transport error which could be an I/O error or a
+         * failure to encode or decode a STOMP message.
+         * <p>Note that
+         * {@link org.springframework.messaging.simp.stomp.ConnectionLostException
+         * ConnectionLostException} will be passed into this method when the
+         * connection is lost rather than closed normally via
+         * {@link StompSession#disconnect()}.
+         *
+         * @param session   the client STOMP session
+         * @param exception the exception that occurred
+         */
+        @Override
+        public void handleTransportError(StompSession session, Throwable exception) {
+            CommonCache.isConnect = session.isConnected();
+            log.error("handleTransportError :{}", exception.getMessage(), exception);
+            log.info("handleTransportError距上次建立连接时间间隔：{}秒", (System.currentTimeMillis() - lastTime) / 1000);
+        }
     }
 }

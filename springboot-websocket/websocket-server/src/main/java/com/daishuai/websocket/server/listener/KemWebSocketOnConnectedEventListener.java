@@ -22,7 +22,7 @@ public class KemWebSocketOnConnectedEventListener implements ApplicationListener
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(sessionConnectedEvent.getMessage());
         GenericMessage genericMessage = (GenericMessage) sha.getHeader("simpConnectMessage");
         MessageHeaders headers = genericMessage.getHeaders();
-        headers.forEach((key, value) -> log.info("key:{}, value:{}", key ,value));
+        headers.forEach((key, value) -> log.info("key:{}, value:{}", key, value));
         log.info("OnConnected 参数 {} ...", sha);
         String message = sha.getMessage();
         log.info("message:{}", message);

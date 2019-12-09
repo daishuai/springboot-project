@@ -1,7 +1,6 @@
 package com.daishuai.websocket.client.controller;
 
 import com.daishuai.websocket.client.dto.KemWebSocketRequest;
-import com.daishuai.websocket.client.handler.DemoSessionHandler;
 import com.daishuai.websocket.client.service.KemWebSocketClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

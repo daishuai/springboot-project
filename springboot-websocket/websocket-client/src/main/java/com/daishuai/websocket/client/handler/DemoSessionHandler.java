@@ -35,6 +35,6 @@ public class DemoSessionHandler extends AbstractStompSessionHandler {
     
     @Override
     public String getDestination() {
-        return "/personalData/pong,/personalData/pong1,/personalData/pong2";
+        return "/personalData/pong,/personalData/pong1,/personalData/pong2,/incidentDetail/pong";
     }
 }

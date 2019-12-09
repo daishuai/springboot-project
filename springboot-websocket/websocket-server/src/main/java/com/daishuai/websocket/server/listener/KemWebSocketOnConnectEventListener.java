@@ -18,7 +18,6 @@ public class KemWebSocketOnConnectEventListener implements ApplicationListener<S
     
     @Override
     public void onApplicationEvent(SessionConnectEvent sessionConnectEvent) {
-        
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(sessionConnectEvent.getMessage());
         String userId = sha.getFirstNativeHeader("userId");
         String clientId = sha.getFirstNativeHeader("clientId");

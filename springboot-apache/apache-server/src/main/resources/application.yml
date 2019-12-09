@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: apache-server
+server:
+  port: 8099
+  context-path: /kircp

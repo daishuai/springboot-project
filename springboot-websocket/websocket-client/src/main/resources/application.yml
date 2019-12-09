@@ -4,4 +4,7 @@ server:
 kem:
   websocket:
     server:
-      connectUri: ws://127.0.0.1:8082/ws/stomp
+      #connectUri: ws://localhost/kircp-servers/kircp/ws/stomp
+      #connectUri: ws://localhost:8092/kircp/ws/stomp
+      #connectUri: ws://192.168.159.132/ws/stomp
+      connectUri: ws://192.168.8.34/kircp-server/kircp/ws/stomp
