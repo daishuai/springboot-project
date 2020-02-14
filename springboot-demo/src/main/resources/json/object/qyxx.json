@@ -1,0 +1,122 @@
+{
+  "企业编号": {
+    "columnType": "string",
+    "columnField": "QYBH",
+    "required": false
+  },
+  "企业名称": {
+    "columnType": "string",
+    "columnField": "QYMC",
+    "required": true
+  },
+  "企业地址": {
+    "columnType": "string",
+    "columnField": "QYDZ",
+    "required": true
+  },
+  "经度": {
+    "columnType": "number",
+    "columnField": "JD",
+    "required": true
+  },
+  "纬度": {
+    "columnType": "number",
+    "columnField": "WD",
+    "required": true
+  },
+  "行政区划": {
+    "columnType": "region",
+    "columnField": "SZDXZQH",
+    "required": true
+  },
+  "负责人": {
+    "columnType": "string",
+    "columnField": "FZRY.RYXM|array|RYLX:1",
+    "required": false
+  },
+  "负责人电话": {
+    "columnType": "string",
+    "columnField": "FZRY.YDDH|array|RYLX:1",
+    "required": false
+  },
+  "经济类型": {
+    "columnType": "20103",
+    "columnField": "JJLX",
+    "required": false
+  },
+  "员工数量": {
+    "columnType": "string",
+    "columnField": "YGSL",
+    "required": false
+  },
+  "企业类型": {
+    "columnType": "20101",
+    "columnField": "QYLX|chain",
+    "required": false
+  },
+  "行业代码名称": {
+    "columnType": "string",
+    "columnField": "HYDMMC",
+    "required": false
+  },
+  "单位性质": {
+    "columnType": "string",
+    "columnField": "DWXZ",
+    "required": false
+  },
+  "组织机构代码": {
+    "columnType": "string",
+    "columnField": "ZZJGDM",
+    "required": false
+  },
+  "邮政编码": {
+    "columnType": "string",
+    "columnField": "YZBM",
+    "required": false
+  },
+  "法人代表": {
+    "columnType": "string",
+    "columnField": "FZRY.RYXM|array|RYLX:2",
+    "required": false
+  },
+  "风险等级": {
+    "columnType": "string",
+    "columnField": "FXDJ",
+    "required": false
+  },
+  "安全责任人": {
+    "columnType": "string",
+    "columnField": "FZRY.RYXM|array|RYLX:3",
+    "required": false
+  },
+  "责任人电话": {
+    "columnType": "string",
+    "columnField": "FZRY.YDDH|array|RYLX:3",
+    "required": false
+  },
+  "销售收入": {
+    "columnType": "string",
+    "columnField": "XSSR",
+    "required": false
+  },
+  "企业规模": {
+    "columnType": "string",
+    "columnField": "QYGM",
+    "required": false
+  },
+  "成立时间": {
+    "columnType": "date",
+    "columnField": "CLRQ|date",
+    "required": false
+  },
+  "单位代码": {
+    "columnType": "string",
+    "columnField": "DWDM",
+    "required": false
+  },
+  "用户企业标识": {
+    "columnType": "string",
+    "columnField": "YHQYBS",
+    "required": false
+  }
+}

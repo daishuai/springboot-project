@@ -13,6 +13,9 @@
         <module>springboot-netty</module>
         <module>springboot-apache</module>
         <module>springboot-alert</module>
+        <module>springboot-standard</module>
+        <module>standard-server</module>
+        <module>springboot-demo</module>
     </modules>
 
     <parent>
@@ -54,6 +57,7 @@
             <artifactId>commons-collections4</artifactId>
             <version>4.1</version>
         </dependency>
+
     </dependencies>
 
     <build>

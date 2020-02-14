@@ -12,7 +12,7 @@ import org.springframework.util.ResourceUtils;
  * @date 2019/11/26 14:56
  */
 @Slf4j
-@Component
+//@Component
 public class GatewayStarter implements ApplicationRunner {
     
     @Override

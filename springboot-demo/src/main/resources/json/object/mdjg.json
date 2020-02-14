@@ -1,0 +1,47 @@
+{
+  "机构编号": {
+    "columnType": "string",
+    "columnField": "JGBH",
+    "required": false
+  },
+  "机构名称": {
+    "columnType": "string",
+    "columnField": "JGMC",
+    "required": true
+  },
+  "机构地址": {
+    "columnType": "string",
+    "columnField": "JGDZ",
+    "required": true
+  },
+  "机构类型": {
+    "columnType": "string",
+    "columnField": "SSLX|chain",
+    "required": true
+  },
+  "乡镇类型": {
+    "columnType": "string",
+    "columnField": "XZLX|chain",
+    "required": false
+  },
+  "经度": {
+    "columnType": "number",
+    "columnField": "JD",
+    "required": true
+  },
+  "纬度": {
+    "columnType": "number",
+    "columnField": "WD",
+    "required": true
+  },
+  "消防机构": {
+    "columnType": "department",
+    "columnField": "SZDXFJG",
+    "required": true
+  },
+  "行政区划": {
+    "columnType": "region",
+    "columnField": "SZDXZQH",
+    "required": true
+  }
+}

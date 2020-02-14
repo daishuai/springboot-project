@@ -3,4 +3,5 @@ spring:
     name: apache-server
 server:
   port: 8099
-  context-path: /kircp
+  #context-path: /kircp
+  servlet-path: /kem

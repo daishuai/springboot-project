@@ -21,15 +21,13 @@ import java.util.concurrent.*;
  */
 @Slf4j
 @Component
-@ServerEndpoint(value = "/websocket", configurator = SpringConfigurator.class)
+@ServerEndpoint(value = "/websocket")
 public class MyWebSocketServer {
     
     private MyService myService;
     
-    @Autowired
-    public MyWebSocketServer(MyService myService){
-        this.myService = myService;
-        log.info("实例化MyWebSocketServer");
+    public MyWebSocketServer(){
+
     }
     
     private final ConcurrentMap<String, ScheduledFuture> scheduledFutureMap = new ConcurrentHashMap<>();
@@ -52,7 +50,7 @@ public class MyWebSocketServer {
         ScheduledFuture<?> scheduledFuture = scheduledExecutorService.scheduleAtFixedRate(() -> this.sendMessage(session,0, "WebSocket Server Message!", null),
                 1, 20, TimeUnit.SECONDS);
         scheduledFutureMap.put(session.getId(), scheduledFuture);
-        System.out.println(myService.getName());
+        //System.out.println(myService.getName());
     }
     
     /**
