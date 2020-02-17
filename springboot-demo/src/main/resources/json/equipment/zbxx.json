@@ -1,25 +1,25 @@
 {
-  "序号": {
-    "columnType": "string",
-    "columnField": "XH",
-    "required": true,
-    "order": 0
-  },
-  "学校编号": {
+  "信息编号": {
     "columnType": "string",
     "columnField": "XXBH",
     "required": false,
+    "order": 0
+  },
+  "装备名称": {
+    "columnType": "string",
+    "columnField": "ZBMC",
+    "required": true,
     "order": 1
   },
-  "学校名称": {
+  "装备编号": {
     "columnType": "string",
-    "columnField": "XXMC",
+    "columnField": "ZBBH",
     "required": true,
     "order": 2
   },
-  "学校地址": {
-    "columnType": "string",
-    "columnField": "XXDZ",
+  "装备类型": {
+    "columnType": "10003",
+    "columnField": "ZBLX",
     "required": true,
     "order": 3
   },
@@ -50,73 +50,55 @@
   "联系人员": {
     "columnType": "string",
     "columnField": "LXRY",
-    "required": false,
+    "required": true,
     "order": 8
   },
   "联系电话": {
     "columnType": "string",
     "columnField": "LXDH",
-    "required": false,
+    "required": true,
     "order": 9
   },
-  "在校人数": {
+  "规格型号": {
     "columnType": "string",
-    "columnField": "ZXRS",
+    "columnField": "GGXH",
     "required": false,
     "order": 10
   },
-  "是否有微型消防站": {
-    "columnType": "exist",
-    "columnField": "WXXFZ.SFYWXXFZ",
+  "是否完好": {
+    "columnType": "flag",
+    "columnField": "SFWH",
     "required": false,
     "order": 11
   },
-  "微站负责人": {
+  "存放单位": {
     "columnType": "string",
-    "columnField": "WXXFZ.XFZFZR",
+    "columnField": "XXBH",
     "required": false,
     "order": 12
   },
-  "负责人电话": {
-    "columnType": "string",
-    "columnField": "WXXFZ.XFZFZRDH",
+  "是否装配": {
+    "columnType": "flag",
+    "columnField": "SFZP",
     "required": false,
     "order": 13
   },
-  "值班电话": {
-    "columnType": "string",
-    "columnField": "WXXFZ.XFZZBDH",
+  "是否用于训练": {
+    "columnType": "flag",
+    "columnField": "SFYYXL",
     "required": false,
     "order": 14
   },
-  "队站车数": {
-    "columnType": "string",
-    "columnField": "WXXFZ.DZCS",
+  "是否支队跨区域增援": {
+    "columnType": "flag",
+    "columnField": "SFZHDKQYZY",
     "required": false,
     "order": 15
   },
-  "队站人数": {
-    "columnType": "string",
-    "columnField": "WXXFZ.DZRS",
+  "是否总队跨区域增援": {
+    "columnType": "flag",
+    "columnField": "SFZDKQYZY",
     "required": false,
     "order": 16
-  },
-  "装备名称": {
-    "columnType": "string",
-    "columnField": "XFZB.ZBMC|array",
-    "required": false,
-    "order": 17
-  },
-  "装备类型": {
-    "columnType": "10003",
-    "columnField": "XFZB.ZBLX|array",
-    "required": false,
-    "order": 18
-  },
-  "装备数量": {
-    "columnType": "string",
-    "columnField": "XFZB.ZBSL|array",
-    "required": false,
-    "order": 19
   }
 }

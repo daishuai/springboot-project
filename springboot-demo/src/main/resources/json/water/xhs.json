@@ -1,25 +1,25 @@
 {
-  "序号": {
+  "消火栓编号": {
     "columnType": "string",
-    "columnField": "XH",
-    "required": true,
+    "columnField": "XHSBH",
+    "required": false,
     "order": 0
   },
-  "学校编号": {
+  "消火栓名称": {
     "columnType": "string",
-    "columnField": "XXBH",
-    "required": false,
+    "columnField": "XHSMC",
+    "required": true,
     "order": 1
   },
-  "学校名称": {
+  "消火栓地址": {
     "columnType": "string",
-    "columnField": "XXMC",
+    "columnField": "XHSDZ",
     "required": true,
     "order": 2
   },
-  "学校地址": {
-    "columnType": "string",
-    "columnField": "XXDZ",
+  "可用状态": {
+    "columnType": "status",
+    "columnField": "KYZT",
     "required": true,
     "order": 3
   },
@@ -47,76 +47,82 @@
     "required": true,
     "order": 7
   },
-  "联系人员": {
-    "columnType": "string",
-    "columnField": "LXRY",
-    "required": false,
+  "消火栓分类": {
+    "columnType": "10085",
+    "columnField": "XHSFL",
+    "required": true,
     "order": 8
   },
-  "联系电话": {
-    "columnType": "string",
-    "columnField": "LXDH",
+  "巡检状态": {
+    "columnType": "xjzt",
+    "columnField": "XJZT",
     "required": false,
     "order": 9
   },
-  "在校人数": {
+  "所属路段": {
     "columnType": "string",
-    "columnField": "ZXRS",
+    "columnField": "SSLD",
     "required": false,
     "order": 10
   },
-  "是否有微型消防站": {
-    "columnType": "exist",
-    "columnField": "WXXFZ.SFYWXXFZ",
+  "建成日期": {
+    "columnType": "date",
+    "columnField": "JCRQ:date",
     "required": false,
     "order": 11
   },
-  "微站负责人": {
-    "columnType": "string",
-    "columnField": "WXXFZ.XFZFZR",
+  "放置形式": {
+    "columnType": "10086",
+    "columnField": "FZXT",
     "required": false,
     "order": 12
   },
-  "负责人电话": {
-    "columnType": "string",
-    "columnField": "WXXFZ.XFZFZRDH",
+  "接口形式": {
+    "columnType": "10087",
+    "columnField": "JKXT",
     "required": false,
     "order": 13
   },
-  "值班电话": {
+  "取水形式": {
     "columnType": "string",
-    "columnField": "WXXFZ.XFZZBDH",
+    "columnField": "QSXS",
     "required": false,
     "order": 14
   },
-  "队站车数": {
+  "所属管网": {
     "columnType": "string",
-    "columnField": "WXXFZ.DZCS",
+    "columnField": "SSGW",
     "required": false,
     "order": 15
   },
-  "队站人数": {
-    "columnType": "string",
-    "columnField": "WXXFZ.DZRS",
+  "管网形式": {
+    "columnType": "10088",
+    "columnField": "GWXT",
     "required": false,
     "order": 16
   },
-  "装备名称": {
-    "columnType": "string",
-    "columnField": "XFZB.ZBMC|array",
+  "管网直径": {
+    "columnType": "number",
+    "columnField": "GWZJ",
     "required": false,
     "order": 17
   },
-  "装备类型": {
-    "columnType": "10003",
-    "columnField": "XFZB.ZBLX|array",
+  "管网压力": {
+    "columnType": "number",
+    "columnField": "GWYL",
     "required": false,
     "order": 18
   },
-  "装备数量": {
-    "columnType": "string",
-    "columnField": "XFZB.ZBSL|array",
+  "流量大小": {
+    "columnType": "number",
+    "columnField": "LLDX",
     "required": false,
     "order": 19
+  },
+  "供水单位": {
+    "columnType": "string",
+    "columnField": "GSDW",
+    "required": false,
+    "order": 20
   }
 }

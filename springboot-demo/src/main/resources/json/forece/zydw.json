@@ -5,21 +5,21 @@
     "required": true,
     "order": 0
   },
-  "学校编号": {
+  "队伍编号": {
     "columnType": "string",
-    "columnField": "XXBH",
+    "columnField": "DWBH",
     "required": false,
     "order": 1
   },
-  "学校名称": {
+  "队伍名称": {
     "columnType": "string",
-    "columnField": "XXMC",
+    "columnField": "DWMC",
     "required": true,
     "order": 2
   },
-  "学校地址": {
+  "队伍地址": {
     "columnType": "string",
-    "columnField": "XXDZ",
+    "columnField": "DWDZ",
     "required": true,
     "order": 3
   },
@@ -47,76 +47,106 @@
     "required": true,
     "order": 7
   },
+  "队伍形式": {
+    "columnType": "10065",
+    "columnField": "DWXS",
+    "required": true,
+    "order": 8
+  },
+  "队伍类别": {
+    "columnType": "10064",
+    "columnField": "DWLB",
+    "required": true,
+    "order": 9
+  },
+  "队伍简称": {
+    "columnType": "string",
+    "columnField": "DWJC",
+    "required": false,
+    "order": 10
+  },
+  "建成日期": {
+    "columnType": "date",
+    "columnField": "CLRQ:date",
+    "required": false,
+    "order": 11
+  },
+  "队伍人数": {
+    "columnType": "string",
+    "columnField": "DWRS",
+    "required": false,
+    "order": 12
+  },
+  "队伍车数": {
+    "columnType": "string",
+    "columnField": "DWCS",
+    "required": false,
+    "order": 13
+  },
+  "搜救犬数": {
+    "columnType": "string",
+    "columnField": "DWSJQS",
+    "required": false,
+    "order": 14
+  },
+  "队伍数量": {
+    "columnType": "string",
+    "columnField": "DWJJGK.JJDWSL",
+    "required": false,
+    "order": 15
+  },
+  "集结所需时间": {
+    "columnType": "string",
+    "columnField": "DWJJGK.JJSXSJ",
+    "required": false,
+    "order": 16
+  },
+  "管理单位": {
+    "columnType": "string",
+    "columnField": "GLDW",
+    "required": false,
+    "order": 17
+  },
+  "装备名称": {
+    "columnType": "string",
+    "columnField": "XFZBQK.ZBMC|array",
+    "required": false,
+    "order": 18
+  },
+  "装备类型": {
+    "columnType": "10003",
+    "columnField": "XFZBQK.ZBLX|array",
+    "required": false,
+    "order": 19
+  },
+  "装备数量": {
+    "columnType": "string",
+    "columnField": "XFZBQK.ZBSL|array",
+    "required": false,
+    "order": 20
+  },
+  "装备概述": {
+    "columnType": "string",
+    "columnField": "XFZBGS",
+    "required": false,
+    "order": 21
+  },
   "联系人员": {
     "columnType": "string",
     "columnField": "LXRY",
     "required": false,
-    "order": 8
+    "order": 22
   },
   "联系电话": {
     "columnType": "string",
     "columnField": "LXDH",
     "required": false,
-    "order": 9
+    "order": 23
   },
-  "在校人数": {
+  "人员职务": {
     "columnType": "string",
-    "columnField": "ZXRS",
+    "columnField": "RYZW",
     "required": false,
-    "order": 10
-  },
-  "是否有微型消防站": {
-    "columnType": "exist",
-    "columnField": "WXXFZ.SFYWXXFZ",
-    "required": false,
-    "order": 11
-  },
-  "微站负责人": {
-    "columnType": "string",
-    "columnField": "WXXFZ.XFZFZR",
-    "required": false,
-    "order": 12
-  },
-  "负责人电话": {
-    "columnType": "string",
-    "columnField": "WXXFZ.XFZFZRDH",
-    "required": false,
-    "order": 13
-  },
-  "值班电话": {
-    "columnType": "string",
-    "columnField": "WXXFZ.XFZZBDH",
-    "required": false,
-    "order": 14
-  },
-  "队站车数": {
-    "columnType": "string",
-    "columnField": "WXXFZ.DZCS",
-    "required": false,
-    "order": 15
-  },
-  "队站人数": {
-    "columnType": "string",
-    "columnField": "WXXFZ.DZRS",
-    "required": false,
-    "order": 16
-  },
-  "装备名称": {
-    "columnType": "string",
-    "columnField": "XFZB.ZBMC|array",
-    "required": false,
-    "order": 17
-  },
-  "装备类型": {
-    "columnType": "10003",
-    "columnField": "XFZB.ZBLX|array",
-    "required": false,
-    "order": 18
-  },
-  "装备数量": {
-    "columnType": "string",
-    "columnField": "XFZB.ZBSL|array",
-    "required": false,
-    "order": 19
+    "order": 24
   }
 }
