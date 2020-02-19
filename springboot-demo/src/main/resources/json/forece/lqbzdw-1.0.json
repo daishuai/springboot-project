@@ -1,0 +1,65 @@
+[
+  {
+    "columnField": "DWBH",
+    "columnName": "单位编号",
+    "columnType": "string"
+  },
+  {
+    "columnField": "DWMC",
+    "columnName": "单位名称",
+    "columnType": "string",
+    "required": true
+  },
+  {
+    "columnField": "DWDZ",
+    "columnName": "单位地址",
+    "columnType": "string",
+    "required": true
+  },
+  {
+    "columnField": "JD",
+    "columnName": "经度",
+    "columnType": "double",
+    "required": true
+  },
+  {
+    "columnField": "WD",
+    "columnName": "纬度",
+    "columnType": "double",
+    "required": true
+  },
+  {
+    "columnField": "SZDXFJG",
+    "columnName": "消防机构",
+    "columnType": "department",
+    "required": true
+  },
+  {
+    "columnField": "SZDXZQH",
+    "columnName": "行政区划",
+    "columnType": "region",
+    "required": true
+  },
+  {
+    "columnField": "BZLB",
+    "columnName": "保障类别",
+    "columnType": "10042",
+    "required": true,
+    "isObject": true
+  },
+  {
+    "columnField": "BZGS",
+    "columnName": "保障概述",
+    "columnType": "string"
+  },
+  {
+    "columnField": "LXRY",
+    "columnName": "联系人员",
+    "columnType": "string"
+  },
+  {
+    "columnField": "LXDH",
+    "columnName": "联系电话",
+    "columnType": "string"
+  }
+]

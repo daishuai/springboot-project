@@ -24,13 +24,13 @@
     "order": 3
   },
   "经度": {
-    "columnType": "number",
+    "columnType": "double",
     "columnField": "JD",
     "required": true,
     "order": 4
   },
   "纬度": {
-    "columnType": "number",
+    "columnType": "double",
     "columnField": "WD",
     "required": true,
     "order": 5
@@ -60,13 +60,13 @@
     "order": 9
   },
   "库存数量": {
-    "columnType": "number",
+    "columnType": "double",
     "columnField": "KCSL",
     "required": false,
     "order": 10
   },
   "完好数量": {
-    "columnType": "number",
+    "columnType": "double",
     "columnField": "WHSL",
     "required": false,
     "order": 11

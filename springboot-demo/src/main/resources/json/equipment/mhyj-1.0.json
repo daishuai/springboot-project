@@ -1,0 +1,83 @@
+[
+  {
+    "columnField": "XXBH",
+    "columnName": "信息编号",
+    "columnType": "string"
+  },
+  {
+    "columnField": "YJMC",
+    "columnName": "药剂名称",
+    "columnType": "string",
+    "required": true
+  },
+  {
+    "columnField": "YJBH",
+    "columnName": "药剂编号",
+    "columnType": "string",
+    "required": true
+  },
+  {
+    "columnField": "YJLX",
+    "columnName": "药剂类型",
+    "columnType": "10003",
+    "required": true,
+    "isObject": true,
+    "hasChain": true
+  },
+  {
+    "columnField": "JD",
+    "columnName": "经度",
+    "columnType": "double",
+    "required": true
+  },
+  {
+    "columnField": "WD",
+    "columnName": "纬度",
+    "columnType": "double",
+    "required": true
+  },
+  {
+    "columnField": "SZDXFJG",
+    "columnName": "消防机构",
+    "columnType": "department",
+    "required": true
+  },
+  {
+    "columnField": "SZDXZQH",
+    "columnName": "行政区划",
+    "columnType": "region",
+    "required": true
+  },
+  {
+    "columnField": "LXRY",
+    "columnName": "联系人员",
+    "columnType": "string",
+    "required": true
+  },
+  {
+    "columnField": "LXDH",
+    "columnName": "联系电话",
+    "columnType": "string",
+    "required": true
+  },
+  {
+    "columnField": "KCSL",
+    "columnName": "库存数量",
+    "columnType": "double"
+  },
+  {
+    "columnField": "WHSL",
+    "columnName": "完好数量",
+    "columnType": "double"
+  },
+  {
+    "columnField": "JLDW",
+    "columnName": "计量单位",
+    "columnType": "string"
+  },
+  {
+    "columnField": "CFDW",
+    "columnName": "存放单位",
+    "columnType": "string"
+  }
+]

@@ -1,7 +1,7 @@
 {
   "序号": {
     "columnType": "string",
-    "columnField": "BH",
+    "columnField": "XH",
     "required": true,
     "order": 0
   },
@@ -19,7 +19,7 @@
   },
   "古建筑地址": {
     "columnType": "string",
-    "columnField": "GJZDZ",
+    "columnField": "JZDZ",
     "required": true,
     "order": 3
   },
@@ -49,7 +49,7 @@
   },
   "消防负责人": {
     "columnType": "string",
-    "columnField": "XFAQZZR",
+    "columnField": "XFAQZRR",
     "required": false,
     "order": 8
   },

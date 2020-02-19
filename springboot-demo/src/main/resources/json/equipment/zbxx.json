@@ -19,7 +19,7 @@
   },
   "装备类型": {
     "columnType": "10003",
-    "columnField": "ZBLX",
+    "columnField": "ZBLX:chain",
     "required": true,
     "order": 3
   },
@@ -73,7 +73,7 @@
   },
   "存放单位": {
     "columnType": "string",
-    "columnField": "XXBH",
+    "columnField": "CFDW",
     "required": false,
     "order": 12
   },
@@ -97,7 +97,7 @@
   },
   "是否总队跨区域增援": {
     "columnType": "flag",
-    "columnField": "SFZDKQYZY",
+    "columnField": "SFZODKQYZY",
     "required": false,
     "order": 16
   }

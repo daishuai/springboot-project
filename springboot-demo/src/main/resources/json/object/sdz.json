@@ -43,7 +43,7 @@
   },
   "水库总容量": {
     "columnType": "number",
-    "columnField": "SKZRL",
+    "columnField": "SKZKR",
     "required": false,
     "order": 7
   },
@@ -55,7 +55,7 @@
   },
   "联系电话": {
     "columnType": "string",
-    "columnField": "FZRY.RYDH",
+    "columnField": "FZRY.LXDH",
     "required": false,
     "order": 9
   }

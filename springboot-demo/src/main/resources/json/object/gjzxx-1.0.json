@@ -1,0 +1,141 @@
+[
+  {
+    "columnField": "XH",
+    "columnName": "序号",
+    "columnType": "string",
+    "required": true
+  },
+  {
+    "columnField": "GJZBH",
+    "columnName": "古建筑编号",
+    "columnType": "string",
+    "required": false
+  },
+  {
+    "columnField": "GJZMC",
+    "columnName": "古建筑名称",
+    "columnType": "string",
+    "required": true
+  },
+  {
+    "columnField": "JZDZ",
+    "columnName": "古建筑地址",
+    "columnType": "string",
+    "required": true
+  },
+  {
+    "columnField": "JD",
+    "columnName": "经度",
+    "columnType": "double",
+    "required": true
+  },
+  {
+    "columnField": "WD",
+    "columnName": "纬度",
+    "columnType": "double",
+    "required": true
+  },
+  {
+    "columnField": "SZDXFJG",
+    "columnName": "消防机构",
+    "columnType": "department",
+    "required": true
+  },
+  {
+    "columnField": "SZDXZQH",
+    "columnName": "行政区划",
+    "columnType": "region",
+    "required": true
+  },
+  {
+    "columnField": "XFAQZRR",
+    "columnName": "消防负责人",
+    "columnType": "string",
+    "required": false
+  },
+  {
+    "columnField": "LXDH",
+    "columnName": "联系电话",
+    "columnType": "string",
+    "required": false
+  },
+  {
+    "columnField": "WXXFZ.SFYWXXFZ",
+    "columnName": "是否有微型消防站",
+    "columnType": "object.exist",
+    "required": false
+  },
+  {
+    "columnField": "WXXFZ.XFZFZR",
+    "columnName": "微站负责人",
+    "columnType": "object.string",
+    "required": false
+  },
+  {
+    "columnField": "WXXFZ.XFZFZRDH",
+    "columnName": "负责人电话",
+    "columnType": "object.string",
+    "required": false
+  },
+  {
+    "columnField": "WXXFZ.XFZZBDH",
+    "columnName": "值班电话",
+    "columnType": "object.string",
+    "required": false
+  },
+  {
+    "columnField": "JZMJ",
+    "columnName": "建筑面积",
+    "columnType": "double",
+    "required": false
+  },
+  {
+    "columnField": "JZJG",
+    "columnName": "建筑结构",
+    "columnType": "string",
+    "required": false
+  },
+  {
+    "columnField": "JZND",
+    "columnName": "建筑年代",
+    "columnType": "date",
+    "required": false,
+    "dateFormat": "yyyy"
+  },
+  {
+    "columnField": "XHSSL",
+    "columnName": "室内消火栓数量",
+    "columnType": "integer",
+    "required": false
+  },
+  {
+    "columnField": "YWZDPS",
+    "columnName": "自动排水系统",
+    "columnType": "exist",
+    "required": false
+  },
+  {
+    "columnField": "YWZDBJ",
+    "columnName": "自动报警系统",
+    "columnType": "exist",
+    "required": false
+  },
+  {
+    "columnField": "XFZB.ZBMC",
+    "columnName": "装备名称",
+    "columnType": "array.string",
+    "required": false
+  },
+  {
+    "columnField": "XFZB.ZBLX",
+    "columnName": "装备类型",
+    "columnType": "array.10003",
+    "required": false
+  },
+  {
+    "columnField": "XFZB.ZBSL",
+    "columnName": "装备数量",
+    "columnType": "array.integer",
+    "required": false
+  }
+]

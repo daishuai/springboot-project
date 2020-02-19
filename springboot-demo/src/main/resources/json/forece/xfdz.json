@@ -65,7 +65,7 @@
     "required": false,
     "order": 10
   },
-  "建成日期": {
+  "成立日期": {
     "columnType": "date",
     "columnField": "CLRQ:date",
     "required": false,

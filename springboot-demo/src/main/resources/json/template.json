@@ -1,0 +1,26 @@
+[
+  {
+    "columnName": "消防机构",
+    "columnType": "department",
+    "columnField": "SZDXFJG",
+    "subColumn": {
+      "columnName": "消防机构",
+      "columnType": "department",
+      "columnField": "SZDXFJG",
+      "subColumn": {
+
+      },
+      "typeField": "RYLB",
+      "typeValue": "1",
+      "oneToMore": false,
+      "dateFormat": "yyyy-MM-dd",
+      "hasChain": false
+    },
+    "typeField": "RYLB",
+    "typeValue": "1",
+    "oneToMore": false,
+    "dateFormat": "yyyy-MM-dd",
+    "hasChain": false
+  }
+]
+#columnType: string,integer,double,date,10003(处理字典),department(消防机构),region(行政区划)
