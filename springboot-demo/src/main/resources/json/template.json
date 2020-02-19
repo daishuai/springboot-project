@@ -1,26 +1,28 @@
 [
   {
-    "columnName": "消防机构",
-    "columnType": "department",
-    "columnField": "SZDXFJG",
-    "subColumn": {
-      "columnName": "消防机构",
-      "columnType": "department",
-      "columnField": "SZDXFJG",
-      "subColumn": {
-
-      },
-      "typeField": "RYLB",
-      "typeValue": "1",
-      "oneToMore": false,
-      "dateFormat": "yyyy-MM-dd",
-      "hasChain": false
-    },
+    "columnName": "人员姓名",
+    "columnType": "array.string",
+    "columnField": "RYXX.RYXM",
+    "typeField": "RYLB",
+    "typeValue": "1"
+  },
+  {
+    "columnName": "人员姓名",
+    "columnType": "array.string",
+    "columnField": "RYXX.RYXM",
     "typeField": "RYLB",
     "typeValue": "1",
-    "oneToMore": false,
     "dateFormat": "yyyy-MM-dd",
     "hasChain": false
+  },
+  {
+    "columnName": "",
+    "columnType": "", #string, integer, double, date, department, region, 10003, object.··· ,array.···
+    "columnField": "", # BH, XFZBQK.ZBLX, RYXX.RYLB
+    "required": false, #默认值false
+    "typeField": "",
+    "typeValue": "",
+    "isObject": false,  #默认值false
+    "hasChain": false   #默认值false
   }
 ]
-#columnType: string,integer,double,date,10003(处理字典),department(消防机构),region(行政区划)

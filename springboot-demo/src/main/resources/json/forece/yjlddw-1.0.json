@@ -19,13 +19,13 @@
   {
     "columnField": "JD",
     "columnName": "经度",
-    "columnType": "number",
+    "columnType": "double",
     "required": true
   },
   {
     "columnField": "WD",
     "columnName": "纬度",
-    "columnType": "number",
+    "columnType": "double",
     "required": true
   },
   {

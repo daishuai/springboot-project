@@ -8,8 +8,7 @@
   {
     "columnField": "XXBH",
     "columnName": "学校编号",
-    "columnType": "string",
-    "required": false
+    "columnType": "string"
   },
   {
     "columnField": "XXMC",
@@ -50,74 +49,61 @@
   {
     "columnField": "LXRY",
     "columnName": "联系人员",
-    "columnType": "string",
-    "required": false
+    "columnType": "string"
   },
   {
     "columnField": "LXDH",
     "columnName": "联系电话",
-    "columnType": "string",
-    "required": false
+    "columnType": "string"
   },
   {
     "columnField": "ZXRS",
     "columnName": "在校人数",
-    "columnType": "integer",
-    "required": false
+    "columnType": "integer"
   },
   {
     "columnField": "WXXFZ.SFYWXXFZ",
     "columnName": "是否有微型消防站",
-    "columnType": "object.exist",
-    "required": false
+    "columnType": "object.exist"
   },
   {
     "columnField": "WXXFZ.XFZFZR",
     "columnName": "微站负责人",
-    "columnType": "object.string",
-    "required": false
+    "columnType": "object.string"
   },
   {
     "columnField": "WXXFZ.XFZFZRDH",
     "columnName": "负责人电话",
-    "columnType": "object.string",
-    "required": false
+    "columnType": "object.string"
   },
   {
     "columnField": "WXXFZ.XFZZBDH",
     "columnName": "值班电话",
-    "columnType": "object.string",
-    "required": false
+    "columnType": "object.string"
   },
   {
     "columnField": "WXXFZ.DZCS",
     "columnName": "队站车数",
-    "columnType": "object.integer",
-    "required": false
+    "columnType": "object.integer"
   },
   {
     "columnField": "WXXFZ.DZRS",
     "columnName": "队站人数",
-    "columnType": "object.integer",
-    "required": false
+    "columnType": "object.integer"
   },
   {
     "columnField": "XFZB.ZBMC",
     "columnName": "装备名称",
-    "columnType": "array.string",
-    "required": false
+    "columnType": "array.string"
   },
   {
     "columnField": "XFZB.ZBLX",
     "columnName": "装备类型",
-    "columnType": "array.10003",
-    "isObject": false,
-    "required": false
+    "columnType": "array.10003"
   },
   {
     "columnField": "XFZB.ZBSL",
     "columnName": "装备数量",
-    "columnType": "array.integer",
-    "required": false
+    "columnType": "array.integer"
   }
 ]

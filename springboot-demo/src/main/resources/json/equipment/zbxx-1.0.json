@@ -17,7 +17,7 @@
     "required": true
   },
   {
-    "columnField": "ZBLX:chain",
+    "columnField": "ZBLX",
     "columnName": "装备类型",
     "columnType": "10003",
     "required": true,
@@ -63,8 +63,7 @@
   {
     "columnField": "GGXH",
     "columnName": "规格型号",
-    "columnType": "string",
-    "required": false
+    "columnType": "string"
   },
   {
     "columnField": "SFWH",

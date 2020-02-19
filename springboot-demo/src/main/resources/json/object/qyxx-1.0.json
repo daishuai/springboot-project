@@ -2,8 +2,7 @@
   {
     "columnField": "QYBH",
     "columnName": "企业编号",
-    "columnType": "string",
-    "required": false
+    "columnType": "string"
   },
   {
     "columnField": "QYMC",
@@ -39,7 +38,6 @@
     "columnField": "FZRY.RYXM",
     "columnName": "负责人",
     "columnType": "array.string",
-    "required": false,
     "typeField": "RYLX",
     "typeValue": "1"
   },
@@ -47,7 +45,6 @@
     "columnField": "FZRY.YDDH",
     "columnName": "负责人电话",
     "columnType": "array.string",
-    "required": false,
     "typeField": "RYLX",
     "typeValue": "1"
   },
@@ -55,66 +52,56 @@
     "columnField": "JJLX",
     "columnName": "经济类型",
     "columnType": "20103",
-    "required": false,
     "isObject": true
   },
   {
     "columnField": "YGSL",
     "columnName": "员工数量",
-    "columnType": "integer",
-    "required": false
+    "columnType": "integer"
   },
   {
     "columnField": "QYLX",
     "columnName": "企业类型",
     "columnType": "20101",
-    "required": false,
     "isObject": true,
     "hasChain": true
   },
   {
     "columnField": "HYDMMC",
     "columnName": "行业代码名称",
-    "columnType": "string",
-    "required": false
+    "columnType": "string"
   },
   {
     "columnField": "DWXZ",
     "columnName": "单位性质",
-    "columnType": "string",
-    "required": false
+    "columnType": "string"
   },
   {
     "columnField": "ZZJGDM",
     "columnName": "组织机构代码",
-    "columnType": "string",
-    "required": false
+    "columnType": "string"
   },
   {
     "columnField": "YZBM",
     "columnName": "邮政编码",
-    "columnType": "integer",
-    "required": false
+    "columnType": "integer"
   },
   {
     "columnField": "FZRY.RYXM",
     "columnName": "法人代表",
     "columnType": "array.string",
-    "required": false,
     "typeField": "RYLX",
     "typeValue": "2"
   },
   {
     "columnField": "FXDJ",
     "columnName": "风险等级",
-    "columnType": "string",
-    "required": false
+    "columnType": "string"
   },
   {
     "columnField": "FZRY.RYXM",
     "columnName": "安全责任人",
     "columnType": "array.string",
-    "required": false,
     "typeField": "RYLX",
     "typeValue": "3"
   },
@@ -122,39 +109,33 @@
     "columnField": "FZRY.YDDH",
     "columnName": "责任人电话",
     "columnType": "array.string",
-    "required": false,
     "typeField": "RYLX",
     "typeValue": "3"
   },
   {
     "columnField": "XSSR",
     "columnName": "销售收入",
-    "columnType": "double",
-    "required": false
+    "columnType": "double"
   },
   {
     "columnField": "QYGM",
     "columnName": "企业规模",
-    "columnType": "string",
-    "required": false
+    "columnType": "string"
   },
   {
     "columnField": "CLRQ",
     "columnName": "成立时间",
     "columnType": "date",
-    "required": false,
     "dateFormat": "yyyy-MM-dd"
   },
   {
     "columnField": "DWDM",
     "columnName": "单位代码",
-    "columnType": "string",
-    "required": false
+    "columnType": "string"
   },
   {
     "columnField": "YHQYBS",
     "columnName": "用户企业标识",
-    "columnType": "string",
-    "required": false
+    "columnType": "string"
   }
 ]

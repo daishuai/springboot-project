@@ -2,8 +2,7 @@
   {
     "columnField": "SDZBH",
     "columnName": "编号",
-    "columnType": "string",
-    "required": false
+    "columnType": "string"
   },
   {
     "columnField": "SDZMC",
@@ -44,19 +43,16 @@
   {
     "columnField": "SKZKR",
     "columnName": "水库总容量",
-    "columnType": "double",
-    "required": false
+    "columnType": "double"
   },
   {
     "columnField": "FZRY.RYXM",
     "columnName": "负责人",
-    "columnType": "object.string",
-    "required": false
+    "columnType": "object.string"
   },
   {
     "columnField": "FZRY.LXDH",
     "columnName": "联系电话",
-    "columnType": "object.string",
-    "required": false
+    "columnType": "object.string"
   }
 ]
