@@ -22,6 +22,7 @@
     "required": false, #默认值false
     "typeField": "",
     "typeValue": "",
+    "dateFormat": "",   #yyyy, yyyy-MM-dd, yyyy-MM-dd HH：mm：ss
     "isObject": false,  #默认值false
     "hasChain": false   #默认值false
   }
