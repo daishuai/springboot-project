@@ -48,8 +48,8 @@ public class MyWebSocketClient extends WebSocketClient {
     }
     
     @Override
-    public void onClose(int i, String s, boolean b) {
-        log.info("---------MyWebSocketClient onClose----------");
+    public void onClose(int code, String reason, boolean remote) {
+        log.info("---------MyWebSocketClient onClose----------, code:{}, reason:{}, remote:{}", code, reason, remote);
         //future.cancel(true);
         scheduledExecutorService.schedule(this::reconnect, 5L, TimeUnit.SECONDS);
     }

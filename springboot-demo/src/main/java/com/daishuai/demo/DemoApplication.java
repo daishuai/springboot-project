@@ -1,108 +1,96 @@
 package com.daishuai.demo;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.daishuai.demo.dto.WaterAllocationDto;
 import com.daishuai.demo.dto.WaterAllocationResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author Daishuai
  * @date 2020/2/11 12:30
  */
 @Slf4j
+@EnableAspectJAutoProxy
 @RestController
 @SpringBootApplication
 public class DemoApplication {
+    private ConcurrentMap<String, List> cacheMap = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
 
-    @GetMapping("/firefighting/api/dispatch/rest/q/jingqings/{incidentCode}/cmd-watersources")
+    @GetMapping(value = "/firefighting/api/dispatch/rest/q/externals/jingqing/{incidentCode}/cmd-watersources")
     public WaterAllocationResponse getAllocationInfo(@PathVariable(value = "incidentCode") String incidentCode) {
-        String result = "{\n" +
-                "    \"success\": true,\n" +
-                "    \"targetId\": null,\n" +
-                "    \"errorCode\": 200,\n" +
-                "    \"message\": null,\n" +
-                "    \"total\": 2,\n" +
-                "    \"contents\": [\n" +
-                "        {\n" +
-                "            \"id\": 62,\n" +
-                "            \"uuid\": \"c13f92d1-f866-46b8-9d90-8ab71a4e460b\",\n" +
-                "            \"jingqingUuid\": \"e69a0960-ad44-40db-8123-8c4a49364d5b\",\n" +
-                "            \"wsType\": \"WATERSOURCE_FIRE_HYDRANT\",\n" +
-                "            \"wsUuid\": \"01536cff7b-013a-413a-9266-d2edf85028cf\",\n" +
-                "            \"nickName\": \"1号\",\n" +
-                "\"index\": 1,\n" +
-                "            \"command\": null,\n" +
-                "            \"creator\": \"大连支队姓名\",\n" +
-                "            \"createDate\": \"2019-10-23 17:14:55\",\n" +
-                "            \"updateDate\": \"2019-10-23 17:14:55\",\n" +
-                "            \"remark\": null,\n" +
-                "            \"jingqingCmdWatersourceZqzdDTOs\": [\n" +
-                "                {\n" +
-                "                    \"id\": 62,\n" +
-                "                    \"uuid\": \"42daec49-c10f-49ab-82f8-f9d52bbe302a\",\n" +
-                "                    \"jingqingUuid\": \"e69a0960-ad44-40db-8123-8c4a49364d5b\",\n" +
-                "                    \"cmdWsUuid\": \"c13f92d1-f866-46b8-9d90-8ab71a4e460b\",\n" +
-                "                    \"stationUuid\": \"2ddfae33-e677-4d99-9871-c8b608583d84\",\n" +
-                "                    \"stationName\": \"台山中队\",\n" +
-                "                    \"nickName\": null,\n" +
-                "                    \"devId\": null,\n" +
-                "                    \"command\": null,\n" +
-                "                    \"creator\": \"大连支队姓名\",\n" +
-                "                    \"createDate\": \"2019-10-23 17:14:55\",\n" +
-                "                    \"updateDate\": \"2019-10-23 17:14:55\",\n" +
-                "                    \"remark\": null\n" +
-                "                }\n" +
-                "            ]\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"id\": 63,\n" +
-                "            \"uuid\": \"c68705a8-1822-40fb-8fdb-0822b9a073b0\",\n" +
-                "            \"jingqingUuid\": \"e69a0960-ad44-40db-8123-8c4a49364d5b\",\n" +
-                "            \"wsType\": \"WATERSOURCE_FIRE_HYDRANT\",\n" +
-                "            \"wsUuid\": \"01ad7fcdbb-2a9a-4a6c-9c32-cae9ad887080\",\n" +
-                "            \"nickName\": \"5号\",\n" +
-                "\"index\": 5,\n" +
-                "            \"command\": null,\n" +
-                "            \"creator\": \"大连支队姓名\",\n" +
-                "            \"createDate\": \"2019-10-23 17:14:55\",\n" +
-                "            \"updateDate\": \"2019-10-23 17:14:55\",\n" +
-                "            \"remark\": null,\n" +
-                "            \"jingqingCmdWatersourceZqzdDTOs\": [\n" +
-                "                {\n" +
-                "                    \"id\": 68,\n" +
-                "                    \"uuid\": \"b65bdf35-c54f-48ac-9e22-bfed5a72568d\",\n" +
-                "                    \"jingqingUuid\": \"e69a0960-ad44-40db-8123-8c4a49364d5b\",\n" +
-                "                    \"cmdWsUuid\": \"c68705a8-1822-40fb-8fdb-0822b9a073b0\",\n" +
-                "                    \"stationUuid\": \"2ddfae33-e677-4d99-9871-c8b608583d84\",\n" +
-                "                    \"stationName\": \"台山中队\",\n" +
-                "                    \"nickName\": null,\n" +
-                "                    \"devId\": null,\n" +
-                "                    \"command\": null,\n" +
-                "                    \"creator\": \"大连支队姓名\",\n" +
-                "                    \"createDate\": \"2020-02-10 14:49:45\",\n" +
-                "                    \"updateDate\": \"2020-02-10 14:49:45\",\n" +
-                "                    \"remark\": null\n" +
-                "                }\n" +
-                "            ]\n" +
-                "        }\n" +
-                "    ]\n" +
-                "}";
-        return JSON.parseObject(result, WaterAllocationResponse.class);
+
+        List list = cacheMap.get(incidentCode);
+
+        WaterAllocationResponse response = new WaterAllocationResponse();
+        response.setErrorCode(200);
+        response.setSuccess(true);
+        response.setContents(list);
+        response.setTotal(list == null ? 0 : list.size());
+
+        return response;
     }
 
 
-    @PostMapping(value = "/firefighting/api/dispatch/rest/c/jingqings/{incidentCode}/cmd-watersources")
+    @PostMapping(value = "/firefighting/api/dispatch/rest/c/externals/jingqing/{incidentCode}/cmd-watersources")
     public WaterAllocationResponse allocateWater(@PathVariable(value = "incidentCode") String incidentCode,
                                                  @RequestBody WaterAllocationDto waterAllocationDto) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String current = format.format(new Date());
+        List<Object> data = new ArrayList<>();
+        String waterSources = waterAllocationDto.getWaterSources();
+        JSONArray waters = JSON.parseArray(waterSources);
+        for (int i = 0; i < waters.size(); i++) {
+            String uuid = UUID.randomUUID().toString();
+            int id = new Random().nextInt(100);
+            JSONObject water = waters.getJSONObject(i);
+            water.put("id", id);
+            water.put("uuid", uuid);
+            water.put("jingqingUuid", incidentCode);
+            water.put("creator", waterAllocationDto.getAccountName());
+            water.put("createDate", current);
+            water.put("updateDate", current);
+            /*String nickName = water.getString("nickName");
+            Integer index = water.getInteger("index");
+            String wsType = water.getString("wsType");
+            String wsUuid = water.getString("wsUuid");*/
+            List<Object> newStations = new ArrayList<>();
+            JSONArray stations = water.getJSONArray("cmdStationForms");
+            for (int i1 = 0; i1 < stations.size(); i1++) {
+                JSONObject station = stations.getJSONObject(i1);
+                station.put("id", id);
+                station.put("uuid", UUID.randomUUID().toString());
+                station.put("cmdWsUuid", uuid);
+                station.put("jingqingUuid", incidentCode);
+                station.put("creator", waterAllocationDto.getAccountName());
+                station.put("createDate", current);
+                station.put("updateDate", current);
+                newStations.add(station);
+                /*String stationName = station.getString("stationName");
+                String stationUuid = station.getString("stationUuid");*/
+            }
+            water.put("jingqingCmdWatersourceZqzdDTOs", newStations);
+            water.remove("cmdStationForms");
+            data.add(water);
+        }
+
+        cacheMap.put(incidentCode, data);
         log.info("incidentCode:{}", incidentCode);
-        log.info("waterAllocationDto:" + JSON.toJSONString(waterAllocationDto));
+        log.info("waterAllocationDto:{}", JSON.toJSONString(waterAllocationDto));
         String result = "{\n" +
                 "    \"success\": true,\n" +
                 "    \"targetId\": null,\n" +
@@ -112,5 +100,10 @@ public class DemoApplication {
                 "    \"contents\": []\n" +
                 "}";
         return JSON.parseObject(result, WaterAllocationResponse.class);
+    }
+
+    @GetMapping(value = "/demo")
+    public WaterAllocationResponse demo() {
+        return new WaterAllocationResponse();
     }
 }

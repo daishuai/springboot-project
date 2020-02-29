@@ -19,13 +19,13 @@ public class WaterAllocationResponse {
     /**
      * 错误代码
      */
-    private String errorCode;
+    private Integer errorCode;
 
     private String targetId;
 
     private String message;
 
-    private String total;
+    private Integer total;
 
     private List contents;
 }

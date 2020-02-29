@@ -2,5 +2,7 @@ server:
   port: 8181
 
 kircp:
-  serverUri: ws://192.168.8.34:8093/kircp-servers/heartbeat/websocket
-  #serverUri: ws://localhost:8099/websocket
+  #serverUri: ws://192.168.8.34:8093/kircp-servers/heartbeat/websocket
+  #serverUri: ws://localhost:8099/kircp/websocket
+  serverUri: ws://localhost:8093/heartbeat/websocket
+  #serverUri: ws://dolphin-stage.kedacom.com/kircp-servers/heartbeat/websocket
