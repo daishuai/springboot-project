@@ -1,0 +1,40 @@
+[
+  {
+    "columnField": "YLBH",
+    "columnName": "演练编号",
+    "columnType": "string",
+    "exportHidden": true
+  },
+  {
+    "columnField": "YLMC",
+    "columnName": "演练名称",
+    "columnType": "string"
+  },
+  {
+    "columnField": "YLDD",
+    "columnName": "演练地点",
+    "columnType": "string"
+  },
+  {
+    "columnField": "KSSJ",
+    "columnName": "开始时间",
+    "columnType": "date",
+    "dateFormat": "yyyy-MM-dd HH:mm:ss"
+  },
+  {
+    "columnField": "JSSJ",
+    "columnName": "结束时间",
+    "columnType": "date",
+    "dateFormat": "yyyy-MM-dd HH:mm:ss"
+  },
+  {
+    "columnField": "YLDW",
+    "columnName": "演练单位",
+    "columnType": "string"
+  },
+  {
+    "columnField": "YLNR",
+    "columnName": "演练内容",
+    "columnType": "string"
+  }
+]

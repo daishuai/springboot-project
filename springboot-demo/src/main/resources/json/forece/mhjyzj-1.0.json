@@ -54,6 +54,7 @@
     "columnType": "array.10007",
     "required": true,
     "isObject": true,
+    "isOneToMore": true,
     "hasChain": true
   },
   {
@@ -65,8 +66,7 @@
   {
     "columnField": "ZW",
     "columnName": "职务",
-    "columnType": "10027",
-    "isObject": true
+    "columnType": "string"
   },
   {
     "columnField": "SZDW",
@@ -97,5 +97,10 @@
     "columnField": "TXDZ",
     "columnName": "通信地址",
     "columnType": "string"
+  },
+  {
+    "columnField": "JLZT",
+    "columnName": "是否删除",
+    "columnType": "jlzt"
   }
 ]

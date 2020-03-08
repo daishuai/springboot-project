@@ -1,0 +1,58 @@
+[
+  {
+    "columnField": "HDZBH",
+    "columnName": "核电站编号",
+    "columnType": "string"
+  },
+  {
+    "columnField": "HDZMC",
+    "columnName": "核电站名称",
+    "columnType": "string"
+  },
+  {
+    "columnField": "HDZDZ",
+    "columnName": "核电站地址",
+    "columnType": "string"
+  },
+  {
+    "columnField": "JCRQ",
+    "columnName": "建成日期",
+    "columnType": "date",
+    "dateFormat": "yyyy-MM-dd"
+  },
+  {
+    "columnField": "HDJZS",
+    "columnName": "核电机组数",
+    "columnType": "integer"
+  },
+  {
+    "columnField": "ZZJRLL",
+    "columnName": "总装机容量  单位：千瓦",
+    "columnType": "double"
+  },
+  {
+    "columnField": "QNFDL",
+    "columnName": "全年发电量 单位：千瓦时",
+    "columnType": "double"
+  },
+  {
+    "columnField": "JD",
+    "columnName": "经度",
+    "columnType": "double"
+  },
+  {
+    "columnField": "WD",
+    "columnName": "纬度",
+    "columnType": "double"
+  },
+  {
+    "columnField": "SZDXZQH",
+    "columnName": "行政区划",
+    "columnType": "region"
+  },
+  {
+    "columnField": "HDZGS",
+    "columnName": "概述",
+    "columnType": "string"
+  }
+]

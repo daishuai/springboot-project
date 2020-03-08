@@ -110,16 +110,19 @@
   {
     "columnField": "XFZB.ZBMC",
     "columnName": "装备名称",
-    "columnType": "array.string"
+    "columnType": "array.string",
+    "isOneToMore": true
   },
   {
     "columnField": "XFZB.ZBLX",
     "columnName": "装备类型",
-    "columnType": "array.10003"
+    "columnType": "array.10003",
+    "isOneToMore": true
   },
   {
     "columnField": "XFZB.ZBSL",
     "columnName": "装备数量",
-    "columnType": "array.integer"
+    "columnType": "array.integer",
+    "isOneToMore": true
   }
 ]

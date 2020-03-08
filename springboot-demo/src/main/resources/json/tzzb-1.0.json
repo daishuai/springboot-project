@@ -5,20 +5,20 @@
     "columnType": "string"
   },
   {
-    "columnField": "YJMC",
-    "columnName": "药剂名称",
+    "columnField": "ZBMC",
+    "columnName": "装备名称",
     "columnType": "string",
     "required": true
   },
   {
-    "columnField": "YJBH",
-    "columnName": "药剂编号",
+    "columnField": "ZBBH",
+    "columnName": "装备编号",
     "columnType": "string",
     "required": true
   },
   {
-    "columnField": "YJLX",
-    "columnName": "药剂类型",
+    "columnField": "ZBLX",
+    "columnName": "装备类型",
     "columnType": "10003",
     "required": true,
     "isObject": true,
@@ -61,9 +61,24 @@
     "required": true
   },
   {
-    "columnField": "KCSL",
-    "columnName": "库存数量",
-    "columnType": "double"
+    "columnField": "GGXH",
+    "columnName": "规格型号",
+    "columnType": "string"
+  },
+  {
+    "columnField": "ZBXN",
+    "columnName": "装备性能",
+    "columnType": "string"
+  },
+  {
+    "columnField": "SSZCBH",
+    "columnName": "所属资产编号",
+    "columnType": "string"
+  },
+  {
+    "columnField": "SFWH",
+    "columnName": "是否完好",
+    "columnType": "flag"
   },
   {
     "columnField": "WHSL",
@@ -81,8 +96,38 @@
     "columnType": "string"
   },
   {
-    "columnField": "JLZT",
-    "columnName": "是否删除",
-    "columnType": "jlzt"
+    "columnField": "SCCJ",
+    "columnName": "生产厂家",
+    "columnType": "string"
+  },
+  {
+    "columnField": "SHFWDW",
+    "columnName": "售后服务单位",
+    "columnType": "string"
+  },
+  {
+    "columnField": "CFDD",
+    "columnName": "存放地点",
+    "columnType": "string"
+  },
+  {
+    "columnField": "SFZP",
+    "columnName": "是否装配",
+    "columnType": "flag"
+  },
+  {
+    "columnField": "SFYYXL",
+    "columnName": "是否用于训练",
+    "columnType": "flag"
+  },
+  {
+    "columnField": "SFZHDKQYZY",
+    "columnName": "是否支队跨区域增援",
+    "columnType": "flag"
+  },
+  {
+    "columnField": "SFZODKQYZY",
+    "columnName": "是否总队跨区域增援",
+    "columnType": "flag"
   }
 ]

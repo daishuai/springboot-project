@@ -104,17 +104,20 @@
   {
     "columnField": "XFZBQK.ZBMC",
     "columnName": "装备名称",
-    "columnType": "array.string"
+    "columnType": "array.string",
+    "isOneToMore": true
   },
   {
     "columnField": "XFZBQK.ZBLX",
     "columnName": "装备类型",
-    "columnType": "array.10003"
+    "columnType": "array.10003",
+    "isOneToMore": true
   },
   {
     "columnField": "XFZBQK.ZBSL",
     "columnName": "装备数量",
-    "columnType": "array.integer"
+    "columnType": "array.integer",
+    "isOneToMore": true
   },
   {
     "columnField": "XFZBGS",
@@ -135,5 +138,10 @@
     "columnField": "RYZW",
     "columnName": "人员职务",
     "columnType": "string"
+  },
+  {
+    "columnField": "JLZT",
+    "columnName": "是否删除",
+    "columnType": "jlzt"
   }
 ]
