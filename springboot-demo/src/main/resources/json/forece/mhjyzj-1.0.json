@@ -50,12 +50,19 @@
   },
   {
     "columnField": "ZJLYFL",
+    "columnName": "专家领域信息",
+    "columnType": "expertField",
+    "importHidden": true
+  },
+  {
+    "columnField": "ZJLYFL",
     "columnName": "专家领域",
     "columnType": "array.10007",
     "required": true,
     "isObject": true,
     "isOneToMore": true,
-    "hasChain": true
+    "hasChain": true,
+    "exportHidden": true
   },
   {
     "columnField": "SFBDNBZJ",
@@ -101,6 +108,8 @@
   {
     "columnField": "JLZT",
     "columnName": "是否删除",
-    "columnType": "jlzt"
+    "columnType": "jlzt",
+    "importHidden": true,
+    "exportHidden": true
   }
 ]

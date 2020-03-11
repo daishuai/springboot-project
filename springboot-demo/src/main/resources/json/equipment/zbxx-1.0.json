@@ -94,5 +94,10 @@
     "columnField": "SFZODKQYZY",
     "columnName": "是否总队跨区域增援",
     "columnType": "flag"
+  },
+  {
+    "columnField": "JLZT",
+    "columnName": "是否删除",
+    "columnType": "jlzt"
   }
 ]

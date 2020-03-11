@@ -92,21 +92,37 @@
     "columnType": "object.integer"
   },
   {
+    "columnField": "XFZB",
+    "columnName": "消防装备",
+    "columnType": "equipment",
+    "importHidden": true
+  },
+  {
     "columnField": "XFZB.ZBMC",
     "columnName": "装备名称",
     "columnType": "array.string",
-    "isOneToMore": true
+    "isOneToMore": true,
+    "exportHidden": true
   },
   {
     "columnField": "XFZB.ZBLX",
     "columnName": "装备类型",
     "columnType": "array.10003",
-    "isOneToMore": true
+    "isOneToMore": true,
+    "exportHidden": true
   },
   {
     "columnField": "XFZB.ZBSL",
     "columnName": "装备数量",
     "columnType": "array.integer",
-    "isOneToMore": true
+    "isOneToMore": true,
+    "exportHidden": true
+  },
+  {
+    "columnField": "JLZT",
+    "columnName": "是否删除",
+    "columnType": "jlzt",
+    "importHidden": true,
+    "exportHidden": true
   }
 ]
