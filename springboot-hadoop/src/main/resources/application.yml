@@ -1,0 +1,7 @@
+server:
+  port: 22222
+
+hadoop:
+  hdfs:
+    path: hdfs://hadoop101:9000
+    username: root

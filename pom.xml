@@ -14,8 +14,10 @@
         <module>springboot-apache</module>
         <module>springboot-alert</module>
         <module>springboot-standard</module>
-        <module>standard-server</module>
-        <module>springboot-demo</module>
+        <module>springboot-hadoop</module>
+        <module>springboot-reactor</module>
+        <module>springboot-swagger</module>
+        <module>springboot-rule</module>
     </modules>
 
     <parent>

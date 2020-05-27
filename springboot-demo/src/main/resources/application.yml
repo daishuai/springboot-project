@@ -1,7 +1,0 @@
-kirms:
-  security:
-    secretMap: '{"alibaba": "hello","tencent": "world"}'
-    pathPatterns: /kircp/**,/kirms
-
-server:
-  port: 22222
