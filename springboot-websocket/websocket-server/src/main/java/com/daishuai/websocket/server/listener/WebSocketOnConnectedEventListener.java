@@ -1,5 +1,6 @@
 package com.daishuai.websocket.server.listener;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -14,12 +15,13 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 @Slf4j
 @Component
 public class WebSocketOnConnectedEventListener implements ApplicationListener<SessionConnectedEvent> {
-    
+
     @Override
-    public void onApplicationEvent(SessionConnectedEvent sessionConnectEvent) {
-        
-        StompHeaderAccessor sha = StompHeaderAccessor.wrap(sessionConnectEvent.getMessage());
-        
-        log.info("WebSocketOnConnectedEventListener 参数 {} ...", sha);
+    public void onApplicationEvent(SessionConnectedEvent sessionConnectedEvent) {
+
+        StompHeaderAccessor sha = StompHeaderAccessor.wrap(sessionConnectedEvent.getMessage());
+        String sessionId = sha.getSessionId();
+        log.info("建立连接 ED:{}", JSON.toJSONString(sessionConnectedEvent));
+        log.info("建立连接 ED:{}", JSON.toJSONString(sha));
     }
 }

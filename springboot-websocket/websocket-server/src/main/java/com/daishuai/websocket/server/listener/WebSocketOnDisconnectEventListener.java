@@ -1,7 +1,7 @@
 package com.daishuai.websocket.server.listener;
 
+import com.alibaba.fastjson.JSON;
 import com.daishuai.websocket.server.service.KdWebSocketService;
-import com.daishuai.websocket.server.vo.KdWebSocketMsgDefaultVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -15,21 +15,16 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 @Slf4j
 @Component
 public class WebSocketOnDisconnectEventListener implements ApplicationListener<SessionDisconnectEvent> {
-    
+
     @Autowired
     private KdWebSocketService webSocketService;
-    
+
     @Override
     public void onApplicationEvent(SessionDisconnectEvent sessionDisconnectEvent) {
-        
+
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(sessionDisconnectEvent.getMessage());
-        
-        log.info("WebSocketOnDisconnectEventListener 参数 {} ...", sha);
-        
-        if (sha.getSessionAttributes().get("onDisconnectTopic") != null) {
-            String onDisconnectTopic = (String) sha.getSessionAttributes().get("onDisconnectTopic");
-            String clientId = (String) sha.getSessionAttributes().get("clientId");
-            webSocketService.send(KdWebSocketMsgDefaultVo.builder().payload(clientId + "断开连接").destination(onDisconnectTopic).build());
-        }
+        log.info("断开连接 :{}", JSON.toJSONString(sessionDisconnectEvent));
+        log.info("断开连接 :{}", JSON.toJSONString(sha));
+
     }
 }

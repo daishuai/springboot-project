@@ -1,4 +1,4 @@
-package com.daishuai.hadoop;
+package com.daishuai.hadoop.driver;
 
 import com.daishuai.hadoop.mapper.WordCountMapper;
 import com.daishuai.hadoop.reducer.WordCountReducer;
@@ -7,7 +7,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.lib.input.CombineFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.CombineTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -38,16 +37,14 @@ public class WordCountDriver {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
-        //设置分区
-        //job.setPartitionerClass();
         job.setNumReduceTasks(5);
 
         FileInputFormat.setInputPaths(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
         job.setInputFormatClass(CombineTextInputFormat.class);
-        CombineTextInputFormat.setMinInputSplitSize(job, 1 * 1024 * 1024);
-        CombineTextInputFormat.setMaxInputSplitSize(job, 10 * 1024 * 1024);
+        FileInputFormat.setMinInputSplitSize(job, 1024 * 1024L);
+        FileInputFormat.setMaxInputSplitSize(job, 10 * 1024 * 1024L);
 
         job.waitForCompletion(true);
     }

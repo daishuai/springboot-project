@@ -1,9 +1,0 @@
-alert:
-  base:
-    ip: 127.0.0.1
-    port: 12345
-    type: 2
-    interval: 3250
-
-server:
-  port: 9999

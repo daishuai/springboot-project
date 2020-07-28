@@ -1,4 +1,4 @@
-package com.daishuai.hadoop;
+package com.daishuai.hadoop.driver;
 
 import com.daishuai.hadoop.comparator.OrderGroupingComparator;
 import com.daishuai.hadoop.entity.OrderEntity;

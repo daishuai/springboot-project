@@ -18,6 +18,7 @@
         <module>springboot-reactor</module>
         <module>springboot-swagger</module>
         <module>springboot-rule</module>
+        <module>springboot-weather</module>
     </modules>
 
     <parent>
