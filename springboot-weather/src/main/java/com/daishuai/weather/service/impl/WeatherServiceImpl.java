@@ -121,8 +121,8 @@ public class WeatherServiceImpl implements WeatherService {
                     }
                     forecastEntities.add(forecastEntity);
                 });
-                weatherForecastDao.saveAll(forecastEntities);
-                weatherObserveDao.saveAll(observeEntities);
+                weatherForecastDao.save(forecastEntities);
+                weatherObserveDao.save(observeEntities);
                 log.info(jsonObject.toJSONString());
                 return jsonObject;
             }
@@ -154,7 +154,7 @@ public class WeatherServiceImpl implements WeatherService {
                     region.setParentCode("101");
                     return region;
                 }).collect(Collectors.toList());
-                regionDao.saveAll(regions);
+                regionDao.save(regions);
                 return regions;
             }
         } catch (IOException e) {
