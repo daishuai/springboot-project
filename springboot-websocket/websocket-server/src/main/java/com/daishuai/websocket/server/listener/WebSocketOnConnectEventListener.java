@@ -20,8 +20,8 @@ public class WebSocketOnConnectEventListener implements ApplicationListener<Sess
     public void onApplicationEvent(SessionConnectEvent sessionConnectEvent) {
 
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(sessionConnectEvent.getMessage());
-        String clientId = sha.getFirstNativeHeader("clientId");
-        sha.getSessionAttributes().put("clientId", clientId);
+        //String clientId = sha.getFirstNativeHeader("clientId");
+        //sha.getSessionAttributes().put("clientId", clientId);
         log.info("建立连接 :{}", JSON.toJSONString(sessionConnectEvent));
         log.info("建立连接 :{}", JSON.toJSONString(sha));
     }

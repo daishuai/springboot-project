@@ -1,5 +1,6 @@
 package com.daishuai.websocket.server.config;
 
+import com.daishuai.websocket.server.interceptor.WebsocketClientInterceptor;
 import com.daishuai.websocket.server.service.KdWebSocketService;
 import com.daishuai.websocket.server.service.impl.KdWebSocketServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.WebSocketHandler;
@@ -30,10 +32,8 @@ import java.util.Map;
  */
 @Slf4j
 @Configuration
-@ComponentScan("com.daishuai.websocket.server")
 @EnableConfigurationProperties(value = {WebSocketProperties.class})
 @EnableWebSocketMessageBroker
-@DependsOn(value = "kdWebSocketConfigurer")
 public class KircpWebSocketConfigurer extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Autowired
@@ -45,7 +45,7 @@ public class KircpWebSocketConfigurer extends AbstractWebSocketMessageBrokerConf
         stompEndpointRegistry
                 .addEndpoint(webSocketProperties.getEndPoint())
                 .setAllowedOrigins(webSocketProperties.getAllowedOrigins())
-                .addInterceptors(new HandshakeInterceptor() {
+                /*.addInterceptors(new HandshakeInterceptor() {
                     @Override
                     public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
 
@@ -57,7 +57,7 @@ public class KircpWebSocketConfigurer extends AbstractWebSocketMessageBrokerConf
                     public void afterHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Exception e) {
 
                     }
-                })
+                })*/
                 .withSockJS();
     }
 
@@ -84,5 +84,16 @@ public class KircpWebSocketConfigurer extends AbstractWebSocketMessageBrokerConf
     @ConditionalOnMissingBean
     public KdWebSocketService kdWebSocketService() {
         return new KdWebSocketServiceImpl();
+    }
+
+
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(websocketClientInterceptor());
+    }
+
+    @Bean
+    public WebsocketClientInterceptor websocketClientInterceptor() {
+        return new WebsocketClientInterceptor();
     }
 }

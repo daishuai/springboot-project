@@ -1,3 +1,4 @@
+/*
 package com.daishuai.websocket.server.config;
 
 import com.daishuai.websocket.server.service.KdWebSocketService;
@@ -14,20 +15,22 @@ import org.springframework.web.socket.config.annotation.AbstractWebSocketMessage
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
+*/
 /**
  * @author Daishuai
  * @description WebSocket Config
  * @date 2019/8/10 11:03
- */
+ *//*
+
 @Configuration
 @ComponentScan("com.daishuai.websocket.server")
 @EnableConfigurationProperties(value = {WebSocketProperties.class})
 @EnableWebSocketMessageBroker
 public class KdWebSocketConfigurer extends AbstractWebSocketMessageBrokerConfigurer {
-    
+
     @Autowired
     private WebSocketProperties webSocketProperties;
-    
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
         // 注册一个Stomp的节点（endpoint）,并指定使用SockJS协议。
@@ -36,16 +39,16 @@ public class KdWebSocketConfigurer extends AbstractWebSocketMessageBrokerConfigu
                 .setAllowedOrigins(webSocketProperties.getAllowedOrigins())
                 .withSockJS();
     }
-    
+
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        
+
         // 定义心跳线程
         ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
         taskScheduler.setThreadNamePrefix("wss-heartbeat-thread-");
         taskScheduler.setDaemon(true);
         taskScheduler.initialize();
-        
+
         // 服务端发送消息给客户端的域,多个用逗号隔开
         registry.enableSimpleBroker(webSocketProperties.getEnableSimpleBroker())
                 // 定义心跳间隔 单位(ms)
@@ -54,11 +57,12 @@ public class KdWebSocketConfigurer extends AbstractWebSocketMessageBrokerConfigu
         // 定义webSocket前缀
         registry.setApplicationDestinationPrefixes(webSocketProperties.getApplicationDestinationPrefixes());
     }
-    
-    
+
+
     @Bean
     @ConditionalOnMissingBean
     public KdWebSocketService kdWebSocketService() {
         return new KdWebSocketServiceImpl();
     }
 }
+*/

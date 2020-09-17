@@ -17,18 +17,19 @@ import java.util.Map;
  */
 @Configuration
 public class WebSocketClientConfig {
-    
+
     //private String serverUri = "ws://localhost/kircp-servers/heartbeat/websocket";
-    
+
     @Value("${kircp.serverUri:ws://localhost/kircp-servers/heartbeat/websocket}")
     private String serverUri;
-    
+
     @Bean(initMethod = "connect")
     public MyWebSocketClient myWebSocketClient() throws URISyntaxException {
         Map<String, String> httpHeaders = new HashMap<>();
         httpHeaders.put("machineCode", "kem-frontline");
         httpHeaders.put("username", "无锡支队三屏机1");
         httpHeaders.put("password", "helloworld");
+        System.out.println(serverUri);
         return new MyWebSocketClient(new URI(serverUri), new Draft_6455(), httpHeaders);
     }
 }

@@ -6,14 +6,19 @@ import com.daishuai.websocket.server.vo.KdWebSocketMsgDefaultVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.user.SimpUser;
+import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,13 +30,25 @@ import java.util.Map;
 @Slf4j
 @RestController
 public class DemoController {
-    
+
     @Autowired
     private KdWebSocketService kdWebSocketService;
-    
+
+    @Autowired
+    private SimpUserRegistry simpUserRegistry;
+
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
+
     @RequestMapping("/personalData/ping")
     @MessageMapping("/personalData/ping")
-    public void personalData(KdWebSocketMsgDefaultVo defaultVo) {
+    public void personalData(@RequestBody KdWebSocketMsgDefaultVo defaultVo, Principal principal) {
+        System.out.println(principal.getName());
+        int userCount = simpUserRegistry.getUserCount();
+        log.info("当前连接数: {}", userCount);
+        for (SimpUser user : simpUserRegistry.getUsers()) {
+            System.out.println(user.getName());
+        }
         String payload = defaultVo.getPayload();
         String destination = defaultVo.getDestination();
         String clientId = defaultVo.getClientId();
@@ -43,14 +60,14 @@ public class DemoController {
         message.put("timestamp", System.currentTimeMillis());
         message.put("result", defaultVo);
         defaultVo.setPayload(JSON.toJSONString(message));
-        kdWebSocketService.send(defaultVo);
-        defaultVo.setDestination("/user/" + clientId + "/personalData/pong1");
-        kdWebSocketService.send(defaultVo);
-        defaultVo.setDestination("/user/" + clientId + "/personalData/pong2");
-        kdWebSocketService.send(defaultVo);
+        //kdWebSocketService.send(defaultVo);
+        //defaultVo.setDestination("/user/personalData/pong");
+        //kdWebSocketService.send(defaultVo);
+        simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/queue/personalData/pong", "单点");
+        simpMessagingTemplate.convertAndSend("/user/queue/personalData/pong", "广播");
     }
-    
-    
+
+
     @GetMapping("/demo")
     public Object get() {
         Map<String, Object> map = new HashMap<>();
@@ -58,7 +75,7 @@ public class DemoController {
         map.put("message", "WebSocket Server");
         return map;
     }
-    
+
     @MessageMapping("/heartBeat/ping")
     public void heartBeat(KdWebSocketMsgDefaultVo vo) {
         Map<String, Object> map = new HashMap<>();
@@ -69,7 +86,7 @@ public class DemoController {
                 .destination("/heartBeat/pong").build();
         kdWebSocketService.send(vo.getUserId(), defaultVo);
     }
-    
+
     /**
      * 获取真是ip
      * @param request
