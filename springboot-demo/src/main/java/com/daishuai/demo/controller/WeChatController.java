@@ -1,12 +1,10 @@
 package com.daishuai.demo.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 import java.util.Enumeration;
 
 /**
@@ -19,7 +17,7 @@ public class WeChatController {
 
     private static final String WECHAT_TOKEN = "SpringSocial-WeChat";
 
-    @RequestMapping(value = "/wx.do")
+    @GetMapping(value = "/weChat.do")
     public String get(HttpServletRequest request) {
 
         log.error("WechatController   ----   WechatController");
