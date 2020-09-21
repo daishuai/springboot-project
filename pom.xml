@@ -20,6 +20,7 @@
         <module>springboot-weather</module>
         <module>springboot-demo</module>
         <module>springboot-mybatis</module>
+        <module>springboot-distribute-lock</module>
     </modules>
 
     <parent>
