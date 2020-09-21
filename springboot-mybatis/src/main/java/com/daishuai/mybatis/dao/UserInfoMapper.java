@@ -34,6 +34,7 @@ public interface UserInfoMapper {
      * 新增用户信息
      *
      * @param userInfo
+     * @return
      */
     int addUserInfo(UserInfoEntity userInfo);
 
