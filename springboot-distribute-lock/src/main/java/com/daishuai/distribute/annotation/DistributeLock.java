@@ -57,6 +57,9 @@ public @interface DistributeLock {
      */
     LockFailAction action() default LockFailAction.RETRY;
 
+    /**
+     * 获取锁失败时的，枚举常量
+     */
     enum LockFailAction {
 
         /**
