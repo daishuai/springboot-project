@@ -15,6 +15,17 @@ public interface DistributeLock {
     boolean lock(String lockKey);
 
     /**
+     * 获取分布式锁
+     *
+     * @param lockKey
+     * @param expireMillis
+     * @param retryTimes
+     * @param retryInterval
+     * @return
+     */
+    boolean lock(String lockKey, long expireMillis, int retryTimes, long retryInterval);
+
+    /**
      * 释放锁
      *
      * @param lockKey

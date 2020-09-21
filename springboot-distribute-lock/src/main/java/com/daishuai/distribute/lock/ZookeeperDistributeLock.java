@@ -16,6 +16,11 @@ public class ZookeeperDistributeLock implements DistributeLock {
     }
 
     @Override
+    public boolean lock(String lockKey, long expireMillis, int retryTimes, long retryInterval) {
+        return false;
+    }
+
+    @Override
     public boolean releaseLock(String lockKey) {
         return false;
     }

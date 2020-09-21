@@ -10,16 +10,11 @@ import io.lettuce.core.cluster.api.sync.RedisAdvancedClusterCommands;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -55,53 +50,23 @@ public class RedisDistributeLock implements DistributeLock{
 
     @Override
     public boolean lock(String lockKey) {
-        String value = UUID.randomUUID().toString().replaceAll("-", "");
-        try {
-            String result = redisTemplate.execute((RedisCallback<String>) connection -> {
-                Object nativeConnection = connection.getNativeConnection();
-                RedisSerializer keySerializer = redisTemplate.getKeySerializer();
-                RedisSerializer valueSerializer = redisTemplate.getValueSerializer();
-                byte[] keyBytes = keySerializer.serialize(lockKey);
-                byte[] valueBytes = valueSerializer.serialize(value);
-                SetArgs setArgs = SetArgs.Builder.nx().px(EXPIRE_TIME);
-                // lettuce连接包下 redis 单机模式setnx
-                if (nativeConnection instanceof RedisAsyncCommands) {
-                    RedisAsyncCommandsImpl redisAsyncCommands = (RedisAsyncCommandsImpl) nativeConnection;
-                    RedisCommands redisCommands = redisAsyncCommands.getStatefulConnection().sync();
-                    try {
-                        return redisCommands.set(keyBytes, valueBytes, setArgs);
-                    } catch (Exception e) {
-                        log.error("获取锁失败: {}", e.getMessage(), e);
-                    }
-                }
-                // lettuce连接包下 redis 集群模式setnx
-                if (nativeConnection instanceof RedisAdvancedClusterAsyncCommands) {
-                    RedisAdvancedClusterAsyncCommands redisAdvancedClusterAsyncCommands = (RedisAdvancedClusterAsyncCommands) nativeConnection;
-                    RedisAdvancedClusterCommands clusterCommands = redisAdvancedClusterAsyncCommands.getStatefulConnection().sync();
-                    clusterCommands.set(keyBytes, valueBytes, setArgs);
-                }
+        return this.tryLock(lockKey, EXPIRE_TIME);
+    }
 
-                //集群模式和单机模式虽然执行脚本的方法一样，但是没有共同的接口，所以只能翻开执行
-                // Jedis连接包下，Redis集群模式
-                /*if (nativeConnection instanceof JedisCluster) {
-                    return (Long) ((JedisCluster) nativeConnection).eval(UNLOCK_LUA, keys, args);
-                }*/
-                // Jedis连接包下，Redis单机模式
-                /*if (nativeConnection instanceof Jedis) {
-                    return (Long) ((Jedis) nativeConnection).eval(UNLOCK_LUA, keys, args);
-                }*/
-
-                return "Failed";
-            });
-            if (StringUtils.equals("OK", result)) {
-                log.info("success acquire lock ...");
-                lockFlag.set(value);
+    @Override
+    public boolean lock(String lockKey, long expireMillis, int retryTimes, long retryInterval) {
+        boolean result = this.tryLock(lockKey, expireMillis);
+        //如果获取锁失败，按照传入的重试次数进行重试
+        while (!result && retryTimes-- > 0) {
+            try {
+                log.info("acquire lock failed, retrying...{}", retryTimes);
+                Thread.sleep(retryInterval);
+            } catch (InterruptedException e) {
+                return false;
             }
-            return StringUtils.equals("OK", result);
-        } catch (Exception e) {
-            log.error("set redis occurred an exception:{}", e.getMessage(), e);
-            return false;
+            result = this.tryLock(lockKey, expireMillis);
         }
+        return result;
     }
 
     /**
@@ -166,5 +131,55 @@ public class RedisDistributeLock implements DistributeLock{
             log.error("release lock occurred exception :{}", e.getMessage(), e);
         }
         return false;
+    }
+
+    private boolean tryLock(String lockKey, long expireMillis) {
+        String value = UUID.randomUUID().toString().replaceAll("-", "");
+        try {
+            String result = redisTemplate.execute((RedisCallback<String>) connection -> {
+                Object nativeConnection = connection.getNativeConnection();
+                RedisSerializer keySerializer = redisTemplate.getKeySerializer();
+                RedisSerializer valueSerializer = redisTemplate.getValueSerializer();
+                byte[] keyBytes = keySerializer.serialize(lockKey);
+                byte[] valueBytes = valueSerializer.serialize(value);
+                SetArgs setArgs = SetArgs.Builder.nx().px(expireMillis);
+                // lettuce连接包下 redis 单机模式setnx
+                if (nativeConnection instanceof RedisAsyncCommands) {
+                    RedisAsyncCommandsImpl redisAsyncCommands = (RedisAsyncCommandsImpl) nativeConnection;
+                    RedisCommands redisCommands = redisAsyncCommands.getStatefulConnection().sync();
+                    try {
+                        return redisCommands.set(keyBytes, valueBytes, setArgs);
+                    } catch (Exception e) {
+                        log.error("获取锁失败: {}", e.getMessage(), e);
+                    }
+                }
+                // lettuce连接包下 redis 集群模式setnx
+                if (nativeConnection instanceof RedisAdvancedClusterAsyncCommands) {
+                    RedisAdvancedClusterAsyncCommands redisAdvancedClusterAsyncCommands = (RedisAdvancedClusterAsyncCommands) nativeConnection;
+                    RedisAdvancedClusterCommands clusterCommands = redisAdvancedClusterAsyncCommands.getStatefulConnection().sync();
+                    clusterCommands.set(keyBytes, valueBytes, setArgs);
+                }
+
+                //集群模式和单机模式虽然执行脚本的方法一样，但是没有共同的接口，所以只能翻开执行
+                // Jedis连接包下，Redis集群模式
+                /*if (nativeConnection instanceof JedisCluster) {
+                    return (Long) ((JedisCluster) nativeConnection).eval(UNLOCK_LUA, keys, args);
+                }*/
+                // Jedis连接包下，Redis单机模式
+                /*if (nativeConnection instanceof Jedis) {
+                    return (Long) ((Jedis) nativeConnection).eval(UNLOCK_LUA, keys, args);
+                }*/
+
+                return "Failed";
+            });
+            if (StringUtils.equals("OK", result)) {
+                log.info("success acquire lock ...");
+                lockFlag.set(value);
+            }
+            return StringUtils.equals("OK", result);
+        } catch (Exception e) {
+            log.error("set redis occurred an exception:{}", e.getMessage(), e);
+            return false;
+        }
     }
 }
