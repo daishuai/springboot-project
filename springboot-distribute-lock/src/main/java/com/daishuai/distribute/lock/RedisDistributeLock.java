@@ -104,6 +104,19 @@ public class RedisDistributeLock implements DistributeLock{
         }
     }
 
+    /**
+     * Redis分布式锁存在的问题
+     * ----将锁资源放入Redis，setIfAbsent(key, value)
+     * ----设置过期时间，expire(key, expire, timeUnit)
+     * ----释放锁，delete(key)
+     * 1、在调用setIfAbsent()方法后线程挂掉了，即没有给锁定的资源设置过期时间，默认是永不过期，那么这个锁就会一直存在，所以需要保证设置锁及其过期时间两个操作的原子性
+     *   解决方法：jedis当中有这种原子操作的方法，通过RedisTemplate的execute方法获取到jedis里操作命令的对象，JedisCommands.set(key,value,"NX","PX",expire)
+     *   NX:表示只用当前锁定资源不存在的时候才能SET成功。
+     *   PX:expire表示锁定的资源的自动过期时间，单位是毫秒。
+     * 2、线程T1获取锁，线程T1执行业务操作，由于某些原因阻塞了较长时间，锁自动过期，即锁自动释放了，线程T2获取锁，线程T1业务操作完成，释放锁（其实是释放的线程T2的锁）
+     * 3、线程T1执行业务时间太长超过锁过期时间，锁自动过期，线程T2获取锁，同时有两个线程执行业务
+     */
+
     @Override
     public boolean releaseLock(String lockKey) {
         //释放锁的时候，有可能因为持有锁之后方法执行时间大于锁的有效期，此时有可能已经被另外一个线程持有锁，所以不能直接删除
