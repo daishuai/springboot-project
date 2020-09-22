@@ -30,7 +30,7 @@ public class RedisDistributeLock implements DistributeLock{
     @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
 
-    private ThreadLocal<String> lockFlag = new ThreadLocal<String>();
+    private final ThreadLocal<String> lockFlag = new ThreadLocal<String>();
 
     private static final long EXPIRE_TIME = 10000L;
 

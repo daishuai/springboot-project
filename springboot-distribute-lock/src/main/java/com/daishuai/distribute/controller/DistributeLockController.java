@@ -2,6 +2,7 @@ package com.daishuai.distribute.controller;
 
 import com.daishuai.distribute.lock.DistributeLock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class DistributeLockController {
 
     @Autowired
-    private DistributeLock redisDistributeLock;
+    @Qualifier(value = "mySqlDistributeLock")
+    private DistributeLock distributeLock;
 
     @GetMapping(value = "/lock")
     public boolean getLock(String lockKey) {
-        redisDistributeLock.lock(lockKey);
-        return redisDistributeLock.releaseLock(lockKey);
+        return distributeLock.lock(lockKey);
+        // return distributeLock.releaseLock(lockKey);
     }
 
 }

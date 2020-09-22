@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daishuai.distribute.dao.DistributeLockMapper">
+    <resultMap id="BaseResultMap" type="com.daishuai.distribute.entity.DistributeLockEntity">
+        <result column="id" jdbcType="BIGINT" property="id" />
+        <result column="unique_mutex" jdbcType="VARCHAR" property="uniqueMutex" />
+        <result column="holder_id" jdbcType="VARCHAR" property="holderId" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
+    </resultMap>
+
+    <!--数据库加锁-->
+    <insert id="lock" parameterType="com.daishuai.distribute.entity.DistributeLockEntity" keyProperty="id">
+        insert into distributed_lock (unique_mutex, holder_id, create_time)
+        values (#{uniqueMutex}, #{holderId}, #{createTime})
+    </insert>
+
+    <!--释放锁-->
+    <delete id="releaseLock">
+        delete from distributed_lock
+        where unique_mutex = #{uniqueMutex}
+          and holder_id = #{holderId}
+    </delete>
+
+    <!--查询锁信息-->
+    <select id="findLockInfo" resultMap="BaseResultMap">
+        select id, unique_mutex, holder_id, create_time
+        from distributed_lock
+        where unique_mutex = #{uniqueMutex}
+    </select>
+
+</mapper>
