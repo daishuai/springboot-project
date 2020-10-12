@@ -21,6 +21,7 @@
         <module>springboot-demo</module>
         <module>springboot-mybatis</module>
         <module>springboot-distribute-lock</module>
+        <module>springboot-mq/springboot-rocketmq</module>
     </modules>
 
     <parent>
