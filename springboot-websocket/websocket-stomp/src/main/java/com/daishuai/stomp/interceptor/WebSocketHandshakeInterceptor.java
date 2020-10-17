@@ -13,7 +13,7 @@ import java.util.Map;
  * @date 2020/7/29 10:08
  */
 @Slf4j
-public class WebSocketInterceptor implements HandshakeInterceptor {
+public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
         log.info("beforeHandshake finished ...");
@@ -24,4 +24,6 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
     public void afterHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Exception e) {
         log.info("afterHandshake finished ...");
     }
+
+
 }

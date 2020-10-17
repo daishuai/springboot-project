@@ -8,4 +8,8 @@ import lombok.Data;
  */
 @Data
 public class RequestMessage {
+
+    private String clientId;
+
+    private String userId;
 }

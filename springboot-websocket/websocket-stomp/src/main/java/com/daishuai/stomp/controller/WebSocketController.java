@@ -8,10 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.user.SimpUser;
+import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * @author Daishuai
@@ -24,16 +29,24 @@ public class WebSocketController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
+    @Autowired
+    private SimpUserRegistry simpUserRegistry;
 
-    @MessageMapping(value = "/welcome")
-    @SendTo(value = "/topic/say")
-    public ResponseMessage say(RequestMessage requestMessage) {
+
+    @MessageMapping(value = "/welcome/ping")
+    public ResponseMessage say(@RequestBody RequestMessage requestMessage, Principal principal) {
+
+        Set<SimpUser> users = simpUserRegistry.getUsers();
+        log.info("User Count:{}", simpUserRegistry.getUserCount());
+        for (SimpUser user : users) {
+            System.out.println("Username : " +  user.getName());
+        }
         log.info("RequestMessage: {}", requestMessage);
+        ResponseMessage responseMessage = new ResponseMessage();
+        responseMessage.setMessage("Send To All");
+        simpMessagingTemplate.convertAndSend("/demo/topic/demo", responseMessage);
+        responseMessage.setMessage("Send To User " + principal.getName());
+        simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/demo/topic/demo", responseMessage);
         return new ResponseMessage();
-    }
-
-    @Scheduled(fixedRate = 1000)
-    public void callback() {
-        simpMessagingTemplate.convertAndSend("/topic/callback", "定时推送时间:" + DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
     }
 }

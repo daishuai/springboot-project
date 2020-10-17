@@ -21,6 +21,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import java.util.Map;
@@ -34,7 +35,7 @@ import java.util.Map;
 @Configuration
 @EnableConfigurationProperties(value = {WebSocketProperties.class})
 @EnableWebSocketMessageBroker
-public class KircpWebSocketConfigurer extends AbstractWebSocketMessageBrokerConfigurer {
+public class KircpWebSocketConfigurer implements WebSocketMessageBrokerConfigurer {
 
     @Autowired
     private WebSocketProperties webSocketProperties;

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Stomp Receiving Example</title>
+</head>
+<body>
+<div>
+    <div>
+        <div>
+            <button id="connect" onclick="connect();">Connect</button>
+            <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+        </div>
+        <div id="conversationDiv">
+            <p>
+                <label>userId 1 notice content?</label>
+            </p>
+            <p>
+                <textarea id="name" rows="5"></textarea>
+            </p>
+
+            <button id="sendTo" onclick="sendTo();">sendTo1</button>
+			<button id="sendTo" onclick="sendTo2();">sendTo2</button>
+            <p id="response"></p>
+        </div>
+    </div>
+</div>
+
+<div>
+    <h3>Messages:</h3>
+    <ol id="messages"></ol>
+</div>
+
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+<script type="text/javascript">
+
+    var messageList = $("#messages");
+
+    var stompClient = null;
+
+    function setConnected(connected) {
+        document.getElementById('connect').disabled = connected;
+        document.getElementById('disconnect').disabled = !connected;
+        document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
+        document.getElementById('response').innerHTML = '';
+    }
+
+    // 开启socket连接 http://dev.ctsp.kedacom.com/kircp-servers/kircp/swagger-ui.html#/
+    function connect() {
+        var socket = new SockJS('http://localhost:8080/ws/stomp');
+		//var socket = new SockJS('http://192.168.8.181/kem-frontline-server/kemfront/ws/stomp');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({
+            "username": "",
+            "password": "123"
+        }, function (frame) {
+            setConnected(true);
+            //subscribe();
+            subscribe1();
+        });
+    }
+
+    // 断开socket连接
+    function disconnect() {
+        if (stompClient != null) {
+            stompClient.disconnect(function (frame) {
+                setConnected(false);
+            }, {"userId": "userIdTest", "onDisconnectTopic": "/topic", "clientId": "kem_frontline"});
+        }
+        console.log("Disconnected");
+    }
+
+    function sendName() {
+        var value = document.getElementById('name').value;
+        stompClient.send("/ws/broadcast", {}, JSON.stringify({
+            "destination": "/topic",
+            "payload": "payload " + value,
+            "onErrorDestination": "/topic",
+            "payload": "hellow"
+        }));
+    }
+
+   // send to server
+    function sendTo() {
+        var value = document.getElementById('name').value;
+        stompClient.send("/ws/welcome/ping", {}, JSON.stringify({
+		  "clientId": "test",
+		  "userId": "张三",
+		  "destination": "/topic",
+		  "payload": "hello world"
+		}));
+    }
+   // subscribe
+    function subscribe() {
+        console.log("subscribe");
+        stompClient.subscribe("/user/demo/topic/demo", function (data) {
+            var message = data.body;
+            messageList.append("<li>" + message + "</li>");
+        });
+    }
+
+    function subscribe1() {
+        console.log("subscribe");
+        stompClient.subscribe("/demo/topic/demo", function (data) {
+            var message = data.body;
+            messageList.append("<li>" + message + "</li>");
+        });
+    }
+
+
+</script>
+</body>
+</html>
