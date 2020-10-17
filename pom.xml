@@ -23,6 +23,7 @@
         <module>springboot-distribute-lock</module>
         <module>springboot-mq/springboot-rocketmq</module>
         <module>springboot-mq/springboot-rabbitmq</module>
+        <module>springboot-mq/springboot-kafka</module>
     </modules>
 
     <parent>

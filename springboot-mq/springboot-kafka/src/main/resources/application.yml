@@ -1,0 +1,15 @@
+spring:
+  kafka:
+    # Kafka生产者配置
+    producer:
+      bootstrap-servers: 192.168.159.132:9092,192.168.159.132:9093
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    # Kafka消费者配置
+    consumer:
+      bootstrap-servers: 192.168.159.132:9092,192.168.159.132:9093
+      enable-auto-commit: true
+      group-id: consumer-group-demo
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
