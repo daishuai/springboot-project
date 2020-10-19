@@ -24,6 +24,7 @@
         <module>springboot-mq/springboot-rocketmq</module>
         <module>springboot-mq/springboot-rabbitmq</module>
         <module>springboot-mq/springboot-kafka</module>
+        <module>springboot-mq/springboot-activemq</module>
     </modules>
 
     <parent>
