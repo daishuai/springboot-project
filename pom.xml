@@ -25,6 +25,7 @@
         <module>springboot-mq/springboot-rabbitmq</module>
         <module>springboot-mq/springboot-kafka</module>
         <module>springboot-mq/springboot-activemq</module>
+        <module>springboot-zookeeper</module>
     </modules>
 
     <parent>

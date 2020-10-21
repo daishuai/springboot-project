@@ -1,5 +1,7 @@
 package com.daishuai.distribute.lock;
 
+import org.apache.curator.framework.CuratorFramework;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,6 +12,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ZookeeperDistributeLock implements DistributeLock {
+
+    @Autowired
+    private CuratorFramework zookeeperClient;
+
     @Override
     public boolean lock(String lockKey) {
         return false;
