@@ -32,6 +32,8 @@ spring:
         login-username: admin
         login-password: admin
         enabled: true
+  zookeeper:
+    connect: 192.168.159.132:2181
 
 # Mybatis配置
 mybatis:
