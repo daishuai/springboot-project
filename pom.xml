@@ -26,6 +26,7 @@
         <module>springboot-mq/springboot-kafka</module>
         <module>springboot-mq/springboot-activemq</module>
         <module>springboot-zookeeper</module>
+        <module>springboot-elasticsearch</module>
     </modules>
 
     <parent>

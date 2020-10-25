@@ -1,0 +1,13 @@
+spring:
+  elasticsearch:
+    default-cluster: dev
+    clusters:
+      default:
+        rest-nodes: 192.168.159.132:9200
+        thread-num: 10
+        sniff: false
+      dev:
+        rest-nodes: http://localhost
+        path-prefix: /es-common
+        thread-num: 10
+        sniff: false
