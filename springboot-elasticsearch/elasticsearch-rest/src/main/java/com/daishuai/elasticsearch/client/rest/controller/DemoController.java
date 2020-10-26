@@ -1,7 +1,6 @@
 package com.daishuai.elasticsearch.client.rest.controller;
 
 import com.daishuai.elasticsearch.client.rest.service.ElasticSearchApi;
-import org.elasticsearch.action.index.IndexResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +20,7 @@ public class DemoController {
 
     @GetMapping(value = "/indexDemo")
     public Object indexDemo() {
-        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> data = new HashMap<>(8);
         data.put("GXRY", "张三");
         data.put("LYBH", "123456");
         data.put("RKRY", "江苏省苏州市");
@@ -30,6 +29,6 @@ public class DemoController {
 
     @GetMapping(value = "/getDemo")
     public Object getDemo() {
-        return elasticSearchApi.get("a_fire_zqxx", "zqxx", "bf726445193d3c76b16a0ec125fe0503");
+        return elasticSearchApi.get("a_fire_zqxx", "zqxx", "bf726445193d3c76b16a0ec125fe0503", "ZQBH", "SZDXFJG");
     }
 }

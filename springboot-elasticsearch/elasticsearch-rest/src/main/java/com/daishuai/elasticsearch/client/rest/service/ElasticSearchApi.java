@@ -2,6 +2,7 @@ package com.daishuai.elasticsearch.client.rest.service;
 
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.update.UpdateResponse;
 
 import java.util.Map;
 
@@ -23,6 +24,29 @@ public interface ElasticSearchApi {
     IndexResponse index(String index, String type, String docId, Map<String, Object> data);
 
     /**
+     * 更新数据
+     *
+     * @param index
+     * @param type
+     * @param docId
+     * @param data
+     * @return
+     */
+    UpdateResponse update(String index, String type, String docId, Map<String, Object> data);
+
+    /**
+     * 存在则更新，不存在则新增
+     *
+     * @param index
+     * @param type
+     * @param docId
+     * @param data
+     * @return
+     */
+    UpdateResponse upsert(String index, String type, String docId, Map<String, Object> data);
+
+
+    /**
      * 根据ID检索数据
      *
      * @param index
@@ -31,4 +55,15 @@ public interface ElasticSearchApi {
      * @return
      */
     GetResponse get(String index, String type, String docId);
+
+    /**
+     * 根据ID检索数据
+     *
+     * @param index
+     * @param type
+     * @param docId
+     * @param includes 指定字段
+     * @return
+     */
+    GetResponse get(String index, String type, String docId, String ... includes);
 }

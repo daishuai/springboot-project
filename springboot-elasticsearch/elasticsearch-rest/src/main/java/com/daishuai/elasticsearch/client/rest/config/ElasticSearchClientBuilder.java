@@ -1,16 +1,11 @@
 package com.daishuai.elasticsearch.client.rest.config;
 
-import com.daishuai.elasticsearch.client.rest.service.ElasticSearchApi;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.http.impl.nio.reactor.IOReactorConfig;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
@@ -45,7 +40,7 @@ public class ElasticSearchClientBuilder implements InitializingBean {
 
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         Map<String, ElasticSearchProperties.ClusterInfo> clusters = properties.getClusters();
         clusters.forEach((clusterName, clusterInfo) -> {
             List<HttpHost> httpHosts = new LinkedList<>();
@@ -60,12 +55,12 @@ public class ElasticSearchClientBuilder implements InitializingBean {
                 }
                 String host;
                 int port = -1;
-                String[] strs = hostAndPort.split(":");
-                if (strs.length == 1) {
-                    host = strs[0];
+                String[] hp = hostAndPort.split(":");
+                if (hp.length == 1) {
+                    host = hp[0];
                 } else {
-                    host = strs[0];
-                    port = Integer.parseInt(strs[1]);
+                    host = hp[0];
+                    port = Integer.parseInt(hp[1]);
                 }
                 httpHosts.add(new HttpHost(host, port, schema));
             }
