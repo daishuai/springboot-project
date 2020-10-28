@@ -1,5 +1,1 @@
-common:
-  websocket:
-    enableSimpleBroker:
-      - "/hello"
-      - "/demo"
+

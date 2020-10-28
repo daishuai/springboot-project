@@ -57,7 +57,7 @@
             "password": "123"
         }, function (frame) {
             setConnected(true);
-            //subscribe();
+            subscribe();
             subscribe1();
         });
     }
@@ -77,8 +77,7 @@
         stompClient.send("/ws/broadcast", {}, JSON.stringify({
             "destination": "/topic",
             "payload": "payload " + value,
-            "onErrorDestination": "/topic",
-            "payload": "hellow"
+            "onErrorDestination": "/topic"
         }));
     }
 
@@ -95,18 +94,18 @@
    // subscribe
     function subscribe() {
         console.log("subscribe");
-        stompClient.subscribe("/user/demo/topic/demo", function (data) {
+        stompClient.subscribe("/user/topic/demo", function (data) {
             var message = data.body;
-            messageList.append("<li>" + message + "</li>");
-        });
+            messageList.append("<li>" + 'subscribe'  + message + "</li>");
+        }, {"key1": "value1", "key2": "value2"});
     }
 
     function subscribe1() {
         console.log("subscribe");
-        stompClient.subscribe("/demo/topic/demo", function (data) {
+        stompClient.subscribe("/user/topic/demo", function (data) {
             var message = data.body;
-            messageList.append("<li>" + message + "</li>");
-        });
+            messageList.append("<li>" + 'subscribe1'  + message + "</li>");
+        }, {"key1": "value1", "key2": "value2"});
     }
 
 

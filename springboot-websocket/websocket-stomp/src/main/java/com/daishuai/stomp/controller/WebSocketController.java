@@ -3,19 +3,15 @@ package com.daishuai.stomp.controller;
 import com.daishuai.stomp.dto.RequestMessage;
 import com.daishuai.stomp.dto.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.user.SimpUser;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.util.Date;
 import java.util.Set;
 
 /**
@@ -28,6 +24,7 @@ public class WebSocketController {
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
+
 
     @Autowired
     private SimpUserRegistry simpUserRegistry;
@@ -44,9 +41,9 @@ public class WebSocketController {
         log.info("RequestMessage: {}", requestMessage);
         ResponseMessage responseMessage = new ResponseMessage();
         responseMessage.setMessage("Send To All");
-        simpMessagingTemplate.convertAndSend("/demo/topic/demo", responseMessage);
+        simpMessagingTemplate.convertAndSend("/user/topic/demo", responseMessage);
         responseMessage.setMessage("Send To User " + principal.getName());
-        simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/demo/topic/demo", responseMessage);
+        simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/topic/demo", responseMessage);
         return new ResponseMessage();
     }
 }

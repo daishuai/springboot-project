@@ -1,12 +1,15 @@
 package com.daishuai.elasticsearch.client.rest.controller;
 
 import com.daishuai.elasticsearch.client.rest.service.ElasticSearchApi;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * @author Daishuai
@@ -29,6 +32,17 @@ public class DemoController {
 
     @GetMapping(value = "/getDemo")
     public Object getDemo() {
+
+        BoolQueryBuilder should = boolQuery().should(termsQuery("DWXS.ID", "01", "02", "03", "04", "05", "06", "07", "08"))
+                .should(boolQuery().must(termQuery("DWXS.ID", "09")).must(termsQuery("DWJB.ID", "01", "02", "03")));
+        System.out.println(should.toString());
         return elasticSearchApi.get("a_fire_zqxx", "zqxx", "bf726445193d3c76b16a0ec125fe0503", "ZQBH", "SZDXFJG");
+    }
+
+    public static void main(String[] args) {
+        BoolQueryBuilder should = boolQuery().should(termsQuery("DWXS.ID", "01", "02", "03", "04", "05", "06", "07", "08"))
+                .should(boolQuery().must(termQuery("DWXS.ID", "09")).must(termsQuery("DWJB.ID", "01", "02", "03")));
+        should.minimumShouldMatch(1);
+        System.out.println(should.toString());
     }
 }
