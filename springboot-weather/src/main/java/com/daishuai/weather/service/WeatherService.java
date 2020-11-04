@@ -25,4 +25,11 @@ public interface WeatherService {
      * @return
      */
     List<RegionEntity> getRegions();
+
+    /**
+     * 获取行政区划树
+     *
+     * @return
+     */
+    List<RegionEntity> getRegionTree();
 }

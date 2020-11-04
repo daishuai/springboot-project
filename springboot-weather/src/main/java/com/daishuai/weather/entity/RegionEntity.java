@@ -2,10 +2,8 @@ package com.daishuai.weather.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Daishuai
@@ -28,4 +26,14 @@ public class RegionEntity {
 
     @Column(name = "parent_code", length = 20)
     private String parentCode;
+
+    private String realCode;
+
+    private String realName;
+
+    private String realParentCode;
+
+    @Transient
+    private List<RegionEntity> children;
+
 }

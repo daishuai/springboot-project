@@ -2,14 +2,17 @@ package com.daishuai.weather.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.daishuai.weather.dao.RealRegionDao;
 import com.daishuai.weather.dao.RegionDao;
 import com.daishuai.weather.dao.WeatherForecastDao;
 import com.daishuai.weather.dao.WeatherObserveDao;
+import com.daishuai.weather.entity.RealRegionEntity;
 import com.daishuai.weather.entity.RegionEntity;
 import com.daishuai.weather.entity.WeatherForecastEntity;
 import com.daishuai.weather.entity.WeatherObserveEntity;
 import com.daishuai.weather.service.WeatherService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -22,9 +25,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -42,12 +43,17 @@ public class WeatherServiceImpl implements WeatherService {
 
     public static final String BASE_URL = "https://forecast.weather.com.cn/napi/h5map/city/%s/jQuery%d?callback=jQuery%d";
 
+    public static final String CITY_TREE_URL = "https://j.i8tq.com/weather2020/search/city.js";
+
     public static final String OBSERVE_DATE_FORMAT = "yyyyMMddHHmm";
 
     public static final String FORECAST_DATE_FORMAT = "yyyyMMddHH";
 
     @Autowired
     private RegionDao regionDao;
+
+    @Autowired
+    private RealRegionDao realRegionDao;
 
     @Autowired
     private WeatherForecastDao weatherForecastDao;
@@ -146,16 +152,80 @@ public class WeatherServiceImpl implements WeatherService {
                 String str = IOUtils.toString(inputStream, "utf-8");
                 JSONObject regionJson = JSON.parseObject(str);
                 log.info(str);
+                List<RealRegionEntity> realRegions = realRegionDao.findByXzjb((short) 1);
+                Map<String, RealRegionEntity> realRegionMap = realRegions.stream().collect(Collectors.toMap(RealRegionEntity::getMcjc, realRegionEntity -> realRegionEntity));
                 List<RegionEntity> regions = regionJson.keySet().stream().map(key -> {
                     RegionEntity region = new RegionEntity();
                     region.setCode(key);
-                    region.setName(regionJson.getString(key));
-                    region.setLevel(2);
+                    String name = regionJson.getString(key);
+                    RealRegionEntity realRegion = realRegionMap.get(name);
+                    region.setName(name);
+                    region.setLevel(1);
                     region.setParentCode("101");
+                    region.setRealCode(realRegion.getXzbm());
+                    region.setRealName(realRegion.getXzmc());
+                    region.setRealParentCode(realRegion.getXzfbm());
                     return region;
                 }).collect(Collectors.toList());
                 regionDao.saveAll(regions);
                 return regions;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<RegionEntity> getRegionTree() {
+        List<RegionEntity> result = new LinkedList<>();
+        try {
+            URL url = new URL(CITY_TREE_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = connection.getInputStream();
+                String str = IOUtils.toString(inputStream, "utf-8");
+                str = str.substring(str.indexOf("{"));
+                // 第一层
+                JSONObject cityData = JSON.parseObject(str);
+                List<RealRegionEntity> realRegions = realRegionDao.findByXzjb((short) 1);
+                Map<String, RealRegionEntity> provinceMap = realRegions.stream().collect(Collectors.toMap(RealRegionEntity::getMcjc, realRegionEntity -> realRegionEntity));
+                for (String flk : cityData.keySet()) {
+                    JSONObject sl = cityData.getJSONObject(flk);
+                    RealRegionEntity provinceEntity = provinceMap.get(flk);
+                    List<RealRegionEntity> cities = realRegionDao.findByXznbbmLike(provinceEntity.getXznbbm() + "%");
+                    Map<String, List<RealRegionEntity>> cityMap = cities.stream().collect(Collectors.groupingBy(RealRegionEntity::getMcjc));
+                    for (String slk : sl.keySet()) {
+                        JSONObject tl = sl.getJSONObject(slk);
+                        for (String elk : tl.keySet()) {
+                            JSONObject city = tl.getJSONObject(elk);
+                            String areaid = city.getString("AREAID");
+                            String namecn = city.getString("NAMECN");
+                            List<RealRegionEntity> realCities = cityMap.get(namecn);
+                            RegionEntity region = new RegionEntity();
+                            region.setCode(areaid);
+                            region.setName(namecn);
+                            if (CollectionUtils.isNotEmpty(realCities)) {
+                                if (realCities.size() == 1) {
+                                    RealRegionEntity realCity = realCities.get(0);
+                                    region.setRealCode(realCity.getXzbm());
+                                    region.setRealName(realCity.getXzmc());
+                                    region.setRealParentCode(realCity.getXzfbm());
+                                    region.setLevel(Integer.valueOf(realCity.getXzjb()));
+                                } else {
+                                    log.info("同名城市: {}", JSON.toJSONString(realCities));
+                                }
+
+                            }
+                            result.add(region);
+                        }
+                    }
+                }
+                regionDao.saveAll(result);
+                return result;
             }
         } catch (IOException e) {
             e.printStackTrace();

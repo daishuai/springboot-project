@@ -29,4 +29,9 @@ public class WeatherController {
     public Object getRegions() {
         return weatherService.getRegions();
     }
+
+    @GetMapping(value = "/regionTree")
+    public Object getRegionTree() {
+        return weatherService.getRegionTree();
+    }
 }

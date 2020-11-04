@@ -1,13 +1,15 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
-    url: jdbc:mysql://localhost:3306/daishuai?useSSL=false&amp;characterEncoding=utf-8&amp;serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/daishuai?useSSL=false&characterEncoding=utf-8&serverTimezone=UTC
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
+    show-sql: false
+  main:
+    allow-bean-definition-overriding: true
 #    driver-class-name: oracle.jdbc.OracleDriver
 #    username: c##keda
 #    password: root
