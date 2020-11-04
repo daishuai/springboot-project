@@ -1,5 +1,7 @@
 package com.daishuai.elasticsearch.client.rest.config;
 
+import com.daishuai.elasticsearch.client.rest.service.ElasticSearchApi;
+import com.daishuai.elasticsearch.client.rest.service.impl.RestElasticSearchApi;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -33,9 +35,15 @@ public class ElasticSearchClientBuilder implements InitializingBean {
 
     private static final Map<String, RestHighLevelClient> CLIENT_MAP = new ConcurrentHashMap<>();
 
+    private static final Map<String, ElasticSearchApi> ELASTIC_SEARCH_API_MAP = new ConcurrentHashMap<>();
+
 
     public RestHighLevelClient builderClient(String clusterName) {
         return CLIENT_MAP.get(clusterName);
+    }
+
+    public ElasticSearchApi builderApi(String clusterName) {
+        return ELASTIC_SEARCH_API_MAP.computeIfAbsent(clusterName, key -> new RestElasticSearchApi(builderClient(key)));
     }
 
 

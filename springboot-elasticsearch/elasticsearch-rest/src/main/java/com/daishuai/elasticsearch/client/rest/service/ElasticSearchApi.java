@@ -2,7 +2,9 @@ package com.daishuai.elasticsearch.client.rest.service;
 
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.util.Map;
 
@@ -55,6 +57,16 @@ public interface ElasticSearchApi {
      * @return
      */
     GetResponse get(String index, String type, String docId);
+
+    /**
+     * 根据条件检索数据
+     *
+     * @param index
+     * @param type
+     * @param source
+     * @return
+     */
+    SearchResponse search(String index, String type, SearchSourceBuilder source);
 
     /**
      * 根据ID检索数据

@@ -7,12 +7,15 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.Strings;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 
 import java.io.IOException;
@@ -52,6 +55,17 @@ public class RestElasticSearchApi implements ElasticSearchApi {
     @Override
     public GetResponse get(String index, String type, String docId) {
         return this.get(index, type, docId, Strings.EMPTY_ARRAY);
+    }
+
+    @Override
+    public SearchResponse search(String index, String type, SearchSourceBuilder source) {
+        SearchRequest searchRequest = new SearchRequest().indices(index).types(type).source(source);
+        try {
+            return client.search(searchRequest, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            log.error("查询数据出错: {}", e.getMessage(), e);
+        }
+        return null;
     }
 
     @Override
