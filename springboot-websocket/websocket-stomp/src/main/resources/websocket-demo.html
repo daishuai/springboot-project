@@ -102,7 +102,7 @@
 
     function subscribe1() {
         console.log("subscribe");
-        stompClient.subscribe("/user/topic/demo", function (data) {
+        stompClient.subscribe("/topic/demo", function (data) {
             var message = data.body;
             messageList.append("<li>" + 'subscribe1'  + message + "</li>");
         }, {"key1": "value1", "key2": "value2"});

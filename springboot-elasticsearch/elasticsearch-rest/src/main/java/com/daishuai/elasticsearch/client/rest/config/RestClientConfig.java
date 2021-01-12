@@ -1,7 +1,8 @@
 package com.daishuai.elasticsearch.client.rest.config;
 
-import com.daishuai.elasticsearch.client.rest.service.ElasticSearchApi;
-import com.daishuai.elasticsearch.client.rest.service.impl.RestElasticSearchApi;
+import com.daishuai.elasticsearch.client.rest.handler.DefaultEsFailureHandler;
+import com.daishuai.elasticsearch.client.rest.handler.EsFailureHandler;
+import com.daishuai.elasticsearch.client.rest.service.RestElasticSearchApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,7 +25,13 @@ public class RestClientConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public ElasticSearchApi elasticSearchApi() {
-        return new RestElasticSearchApi(builder.builderClient(properties.getDefaultCluster()));
+    public RestElasticSearchApi elasticSearchApi() {
+        return new RestElasticSearchApi(properties.getDefaultCluster(), builder);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public EsFailureHandler esFailureHandler() {
+        return new DefaultEsFailureHandler();
     }
 }

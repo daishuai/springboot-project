@@ -1,6 +1,7 @@
 package com.daishuai.elasticsearch.client.rest.config;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Map;
@@ -16,6 +17,8 @@ public class ElasticSearchProperties {
     private String defaultCluster;
 
     private Map<String, ClusterInfo> clusters;
+
+    private BulkProcessorConfig bulkProcessor;
 
 
     public static class ClusterInfo {
@@ -98,5 +101,17 @@ public class ElasticSearchProperties {
         public void setSniffIntervalMillis(int sniffIntervalMillis) {
             this.sniffIntervalMillis = sniffIntervalMillis;
         }
+    }
+
+    @Data
+    public static class BulkProcessorConfig {
+
+        private int bulkActions = 1000;
+
+        private int bulkSize = 5;
+
+        private int flushInterval = 5;
+
+        private int concurrentRequests = 5;
     }
 }

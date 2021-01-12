@@ -1,7 +1,6 @@
 package com.daishuai.elasticsearch.client.rest.config;
 
-import com.daishuai.elasticsearch.client.rest.service.ElasticSearchApi;
-import com.daishuai.elasticsearch.client.rest.service.impl.RestElasticSearchApi;
+import com.daishuai.elasticsearch.client.rest.service.RestElasticSearchApi;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -9,18 +8,29 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.reactor.IOReactorConfig;
+import org.elasticsearch.action.ActionListener;
+import org.elasticsearch.action.bulk.BulkProcessor;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.sniff.Sniffer;
+import org.elasticsearch.common.unit.ByteSizeUnit;
+import org.elasticsearch.common.unit.ByteSizeValue;
+import org.elasticsearch.common.unit.TimeValue;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiConsumer;
 
 /**
  * @author Daishuai
@@ -33,17 +43,29 @@ public class ElasticSearchClientBuilder implements InitializingBean {
     private ElasticSearchProperties properties;
 
 
-    private static final Map<String, RestHighLevelClient> CLIENT_MAP = new ConcurrentHashMap<>();
+    private static final Map<String, RestHighLevelClient> HIGH_LEVEL_CLIENT_MAP = new ConcurrentHashMap<>();
 
-    private static final Map<String, ElasticSearchApi> ELASTIC_SEARCH_API_MAP = new ConcurrentHashMap<>();
+    private static final Map<String, RestClient> LOW_LEVEL_CLIENT_MAP = new ConcurrentHashMap<>();
+
+    private static final Map<String, RestElasticSearchApi> ELASTIC_SEARCH_API_MAP = new ConcurrentHashMap<>();
+
+    private static final Map<String, BulkProcessor> BULK_PROCESSOR_MAP = new ConcurrentHashMap<>();
 
 
-    public RestHighLevelClient builderClient(String clusterName) {
-        return CLIENT_MAP.get(clusterName);
+    public RestHighLevelClient buildHighLevelClient(String clusterName) {
+        return HIGH_LEVEL_CLIENT_MAP.get(clusterName);
     }
 
-    public ElasticSearchApi builderApi(String clusterName) {
-        return ELASTIC_SEARCH_API_MAP.computeIfAbsent(clusterName, key -> new RestElasticSearchApi(builderClient(key)));
+    public RestClient buildLowLevelClient(String clusterName) {
+        return LOW_LEVEL_CLIENT_MAP.get(clusterName);
+    }
+
+    public RestElasticSearchApi buildApi(String clusterName) {
+        return ELASTIC_SEARCH_API_MAP.computeIfAbsent(clusterName, key -> new RestElasticSearchApi(clusterName, this));
+    }
+
+    public BulkProcessor buildBulkProcessor(String clusterName) {
+        return BULK_PROCESSOR_MAP.get(clusterName);
     }
 
 
@@ -95,7 +117,29 @@ public class ElasticSearchClientBuilder implements InitializingBean {
                 Sniffer.builder(restClient).setSniffIntervalMillis(clusterInfo.getSniffIntervalMillis()).build();
             }
             RestHighLevelClient client = new RestHighLevelClient(restClientBuilder);
-            CLIENT_MAP.put(clusterName, client);
+            HIGH_LEVEL_CLIENT_MAP.put(clusterName, client);
+            LOW_LEVEL_CLIENT_MAP.put(clusterName, restClientBuilder.build());
+            BULK_PROCESSOR_MAP.put(clusterName, this.bulkProcessor(client));
         });
+    }
+
+
+    @Autowired
+    private BulkProcessor.Listener bulkProcessorListener;
+
+    private BulkProcessor bulkProcessor(RestHighLevelClient highClient) {
+
+        BiConsumer<BulkRequest, ActionListener<BulkResponse>> bulkConsumer =
+                (request, bulkListener) -> highClient.bulkAsync(request, RequestOptions.DEFAULT, bulkListener);
+        BulkProcessor.Builder builder = BulkProcessor.builder(bulkConsumer, bulkProcessorListener);
+        //消息数量到达1000
+        builder.setBulkActions(properties.getBulkProcessor().getBulkActions())
+                //消息大小到大5M
+                .setBulkSize(new ByteSizeValue(properties.getBulkProcessor().getBulkSize(), ByteSizeUnit.MB))
+                //时间达到5s
+                .setFlushInterval(TimeValue.timeValueSeconds(properties.getBulkProcessor().getFlushInterval()))
+                //并发数
+                .setConcurrentRequests(properties.getBulkProcessor().getConcurrentRequests());
+        return builder.build();
     }
 }

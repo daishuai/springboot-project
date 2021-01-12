@@ -27,12 +27,13 @@
         <module>springboot-mq/springboot-activemq</module>
         <module>springboot-zookeeper</module>
         <module>springboot-elasticsearch</module>
+        <module>springboot-multi-redis</module>
     </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.6.RELEASE</version>
+        <version>1.5.21.RELEASE</version>
     </parent>
 
     <properties>

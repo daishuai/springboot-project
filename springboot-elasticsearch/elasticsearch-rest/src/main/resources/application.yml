@@ -1,13 +1,24 @@
 spring:
   elasticsearch:
-    default-cluster: dev
+    bulkProcessor:
+      bulkActions: 200
+      bulkSize: 5
+      flushInterval: 5
+      concurrentRequests: 2
+    default-cluster: es7x
     clusters:
-      default:
-        rest-nodes: 10.148.191.57:39200
+      es7x:
+        rest-nodes: 10.68.16.62:9200
         thread-num: 10
         sniff: false
-      dev:
-        rest-nodes: http://localhost
+      es6x:
+        rest-nodes: http://dolphin-dev.kedacom.com
         path-prefix: /es-common
         thread-num: 10
         sniff: false
+      es5x:
+        rest-nodes: 192.168.159.132:9200
+        thread-num: 10
+        sniff: false
+server:
+  port: 9091
