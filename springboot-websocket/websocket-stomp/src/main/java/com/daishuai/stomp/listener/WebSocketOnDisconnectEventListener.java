@@ -1,6 +1,9 @@
 package com.daishuai.stomp.listener;
 
+import com.daishuai.stomp.common.CommonCache;
+import com.daishuai.stomp.service.InstantSocketTaskService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
@@ -17,10 +20,23 @@ import java.security.Principal;
 @Component
 public class WebSocketOnDisconnectEventListener implements ApplicationListener<SessionDisconnectEvent> {
 
+    @Autowired
+    private InstantSocketTaskService instantSocketTaskService;
+
     @Override
     public void onApplicationEvent(SessionDisconnectEvent sessionDisconnectEvent) {
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(sessionDisconnectEvent.getMessage());
-        Principal user = sha.getUser();
-        log.info("On Disconnect,  username is {}", user.getName());
+        String clientId = sha.getUser().getName();
+        log.info("On Disconnect,  username is {}", clientId);
+
+        // 客户端连接断开，移除相关的所有任务
+        log.info("客户端连接断开，移除相关的所有任务: {}", clientId);
+        instantSocketTaskService.removeAllFromScheduledTask(clientId);
+        //移除针对客户端所记录的时间戳
+        CommonCache.TIMESTAMP_MAP.forEach((k, v) -> {
+            if (k != null && k.endsWith(clientId)) {
+                CommonCache.TIMESTAMP_MAP.remove(k);
+            }
+        });
     }
 }

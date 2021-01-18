@@ -1,6 +1,9 @@
 package com.daishuai.stomp.listener;
 
+import com.daishuai.stomp.common.CommonCache;
+import com.daishuai.stomp.service.InstantSocketTaskService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
@@ -17,10 +20,20 @@ import java.security.Principal;
 @Component
 public class WebSocketOnUnsubscribeEventListener implements ApplicationListener<SessionUnsubscribeEvent> {
 
+    @Autowired
+    private InstantSocketTaskService instantSocketTaskService;
+
     @Override
     public void onApplicationEvent(SessionUnsubscribeEvent sessionUnsubscribeEvent) {
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(sessionUnsubscribeEvent.getMessage());
         Principal user = sha.getUser();
-        log.info("On Unsubscribe,  username is {}", user.getName());
+        if (user == null) {
+            return;
+        }
+        String clientId = user.getName();
+        log.info("On Unsubscribe,  username is {}", clientId);
+        String subscriptionId = sha.getSubscriptionId();
+        // 移除任务
+        instantSocketTaskService.removeFromScheduledTask(clientId, subscriptionId);
     }
 }

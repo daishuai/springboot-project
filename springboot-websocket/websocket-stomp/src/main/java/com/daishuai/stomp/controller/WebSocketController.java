@@ -1,18 +1,15 @@
 package com.daishuai.stomp.controller;
 
-import com.daishuai.stomp.dto.RequestMessage;
+import com.daishuai.stomp.dto.DemoRequest;
 import com.daishuai.stomp.dto.ResponseMessage;
+import com.daishuai.stomp.service.DemoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.user.SimpUser;
-import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.util.Set;
 
 /**
  * @author Daishuai
@@ -23,27 +20,13 @@ import java.util.Set;
 public class WebSocketController {
 
     @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
-
-
-    @Autowired
-    private SimpUserRegistry simpUserRegistry;
+    private DemoService demoService;
 
 
     @MessageMapping(value = "/welcome/ping")
-    public ResponseMessage say(@RequestBody RequestMessage requestMessage, Principal principal) {
-
-        Set<SimpUser> users = simpUserRegistry.getUsers();
-        log.info("User Count:{}", simpUserRegistry.getUserCount());
-        for (SimpUser user : users) {
-            System.out.println("Username : " +  user.getName());
-        }
-        log.info("RequestMessage: {}", requestMessage);
-        ResponseMessage responseMessage = new ResponseMessage();
-        responseMessage.setMessage("Send To All");
-        simpMessagingTemplate.convertAndSend("/user/topic/demo", responseMessage);
-        responseMessage.setMessage("Send To User " + principal.getName());
-        simpMessagingTemplate.convertAndSendToUser(principal.getName(), "/topic/demo", responseMessage);
+    public ResponseMessage say(@RequestBody DemoRequest demoRequest, Principal principal) {
+        log.info("DemoRequest: {}", demoRequest);
+        demoService.demo(demoRequest, principal.getName());
         return new ResponseMessage();
     }
 }

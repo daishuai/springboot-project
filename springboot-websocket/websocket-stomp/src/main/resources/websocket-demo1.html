@@ -55,7 +55,7 @@
         stompClient.connect({
             "username": "",
             "password": "123",
-            "clientId": "wangwu"
+            "clientId": "zhangsan"
         }, function (frame) {
             setConnected(true);
             subscribe();
@@ -95,10 +95,10 @@
    // subscribe
     function subscribe() {
         console.log("subscribe");
-        stompClient.subscribe("/user/topic/departmentCode-00001/demo/pong", function (data) {
+        stompClient.subscribe("/user/topic/incidentCode-00001/demo1/pong", function (data) {
             var message = data.body;
             messageList.append("<li>" + 'subscribe'  + message + "</li>");
-        }, {"id": "subscribeId-000001", "params": "{\"departmentCode\": \"departmentCode-00001\",\"businessType\":\"demo\"}"});
+        }, {"id": "subscribeId-000001", "params": "{\"incidentCode\": \"incidentCode-00001\",\"businessType\":\"demo1\"}"});
     }
 
     function subscribe1() {
