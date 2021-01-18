@@ -9,7 +9,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
-import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -19,10 +18,7 @@ import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.ClearScrollRequest;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchScrollRequest;
+import org.elasticsearch.action.search.*;
 import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
@@ -43,7 +39,10 @@ import org.elasticsearch.search.sort.SortBuilder;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -70,7 +69,7 @@ public class RestElasticSearchApi {
 
 
 
-    private RestHighLevelClient getHighLevelClient() {
+    private CustomRestHighLevelClient getHighLevelClient() {
         return builder.buildHighLevelClient(clusterName);
     }
 
@@ -121,14 +120,14 @@ public class RestElasticSearchApi {
      * @param scroll       设置滚动时间
      * @return 查询结果
      */
-    public SearchResponse searchScrollData(String index, String type, QueryBuilder queryBuilder, int size, Scroll scroll) {
+    public CustomSearchResponse searchScrollData(String index, String type, QueryBuilder queryBuilder, int size, Scroll scroll) {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(queryBuilder);
         searchSourceBuilder.size(size);
         return getSearchResponse(new SearchRequest(index).types(type).source(searchSourceBuilder).scroll(scroll));
     }
 
-    public SearchResponse searchScrollData(String index, String type, QueryBuilder queryBuilder, int size, Scroll scroll, String[] includes) {
+    public CustomSearchResponse searchScrollData(String index, String type, QueryBuilder queryBuilder, int size, Scroll scroll, String[] includes) {
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(queryBuilder);
         searchSourceBuilder.size(size).fetchSource(includes, null);
@@ -258,12 +257,12 @@ public class RestElasticSearchApi {
         return response;
     }
 
-    public SearchResponse getSearchResponse(SearchRequest request) {
-        SearchResponse response = null;
+    public CustomSearchResponse getSearchResponse(SearchRequest request) {
+        CustomSearchResponse response = null;
         try {
-            RestHighLevelClient hightClient = getHighLevelClient();
+            CustomRestHighLevelClient hightClient = getHighLevelClient();
             long l = System.currentTimeMillis();
-            response = hightClient.search(request, RequestOptions.DEFAULT);
+            response = hightClient.search(request, RequestOptions.DEFAULT, "");
             long l1 = System.currentTimeMillis() - l;
             log.info("查询时间：{}", l1);
         } catch (IOException e) {
@@ -358,7 +357,6 @@ public class RestElasticSearchApi {
         try {
             Request postRequest = new Request("post", "/" + index + "/_update_by_query");
             postRequest.setEntity(entity);
-            postRequest.addParameters(Collections.EMPTY_MAP);
             Response response = this.getLowLevelClient().performRequest(postRequest);
             String result = IOUtils.toString(response.getEntity().getContent(), String.valueOf(StandardCharsets.UTF_8));
             return JSONObject.parseObject(result);
@@ -371,20 +369,20 @@ public class RestElasticSearchApi {
         return getGetResponse(new GetRequest(index, type, id));
     }
 
-    public SearchResponse getDateByIds(String index, String type, String[] ids) {
+    public CustomSearchResponse getDateByIds(String index, String type, String[] ids) {
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(QueryBuilders.idsQuery().addIds(ids))
                 .timeout(new TimeValue(60, TimeUnit.SECONDS));
         return getSearchResponse(new SearchRequest(index).types(type).source(sourceBuilder));
     }
 
-    public SearchResponse getDataByIds(String index, String type, String[] ids, String[] include) {
+    public CustomSearchResponse getDataByIds(String index, String type, String[] ids, String[] include) {
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().query(QueryBuilders.idsQuery().addIds(ids))
                 .timeout(new TimeValue(60, TimeUnit.SECONDS))
                 .fetchSource(include, null);
         return getSearchResponse(new SearchRequest(index).types(type).source(sourceBuilder));
     }
 
-    public SearchResponse searchData(String index, String type, SearchSourceBuilder searchSource) {
+    public CustomSearchResponse searchData(String index, String type, SearchSourceBuilder searchSource) {
         return getSearchResponse(new SearchRequest(index).types(type).source(searchSource));
     }
 
@@ -456,7 +454,6 @@ public class RestElasticSearchApi {
         try {
             Request postRequest = new Request("post", "/" + index + "/_delete_by_query");
             postRequest.setEntity(entity);
-            postRequest.addParameters(Collections.emptyMap());
             response = this.getLowLevelClient().performRequest(postRequest);
         } catch (IOException e) {
             log.error("根据查询条件删除出错：{}", e);
@@ -518,9 +515,8 @@ public class RestElasticSearchApi {
                 .source(source)
                 .scroll(scroll);
 
-        SearchResponse searchResponse = this.getSearchResponse(request);
-        TotalHits totalHits = searchResponse.getHits().getTotalHits();
-        long total = totalHits.value;
+        CustomSearchResponse searchResponse = this.getSearchResponse(request);
+        long total = searchResponse.getHits().getTotalHits();
         long pages = total % pageSize == 0 ? total / pageSize : total / pageSize + 1;
         pageNo = Math.toIntExact(pageNo > pages ? pages : pageNo);
         SearchHit[] hits = searchResponse.getHits().getHits();
@@ -599,8 +595,8 @@ public class RestElasticSearchApi {
                 .source(source)
                 .scroll(scroll);
 
-        SearchResponse searchResponse = this.getSearchResponse(request);
-        long total = searchResponse.getHits().getTotalHits().value;
+        CustomSearchResponse searchResponse = this.getSearchResponse(request);
+        long total = searchResponse.getHits().getTotalHits();
         long pages = total % pageSize == 0 ? total / pageSize : total / pageSize + 1;
         pageNo = Math.toIntExact(pageNo > pages ? pages : pageNo);
         SearchHit[] hits = searchResponse.getHits().getHits();
@@ -677,7 +673,7 @@ public class RestElasticSearchApi {
                 .source(source)
                 .scroll(scroll);
 
-        SearchResponse searchResponse = this.getSearchResponse(request);
+        CustomSearchResponse searchResponse = this.getSearchResponse(request);
         SearchHit[] hits = searchResponse.getHits().getHits();
         String scrollId = searchResponse.getScrollId();
         ;

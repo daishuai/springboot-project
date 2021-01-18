@@ -8,12 +8,11 @@ spring:
     default-cluster: es7x
     clusters:
       es7x:
-        rest-nodes: 10.68.16.62:9200
+        rest-nodes: 192.168.159.132:9200
         thread-num: 10
         sniff: false
       es6x:
-        rest-nodes: http://dolphin-dev.kedacom.com
-        path-prefix: /es-common
+        rest-nodes: 192.168.159.132:9200
         thread-num: 10
         sniff: false
       es5x:

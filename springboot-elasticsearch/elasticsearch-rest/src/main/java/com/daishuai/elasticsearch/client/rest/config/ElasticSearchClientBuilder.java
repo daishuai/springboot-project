@@ -12,10 +12,7 @@ import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder;
-import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.*;
 import org.elasticsearch.client.sniff.Sniffer;
 import org.elasticsearch.common.unit.ByteSizeUnit;
 import org.elasticsearch.common.unit.ByteSizeValue;
@@ -43,7 +40,7 @@ public class ElasticSearchClientBuilder implements InitializingBean {
     private ElasticSearchProperties properties;
 
 
-    private static final Map<String, RestHighLevelClient> HIGH_LEVEL_CLIENT_MAP = new ConcurrentHashMap<>();
+    private static final Map<String, CustomRestHighLevelClient> HIGH_LEVEL_CLIENT_MAP = new ConcurrentHashMap<>();
 
     private static final Map<String, RestClient> LOW_LEVEL_CLIENT_MAP = new ConcurrentHashMap<>();
 
@@ -52,7 +49,7 @@ public class ElasticSearchClientBuilder implements InitializingBean {
     private static final Map<String, BulkProcessor> BULK_PROCESSOR_MAP = new ConcurrentHashMap<>();
 
 
-    public RestHighLevelClient buildHighLevelClient(String clusterName) {
+    public CustomRestHighLevelClient buildHighLevelClient(String clusterName) {
         return HIGH_LEVEL_CLIENT_MAP.get(clusterName);
     }
 
@@ -116,7 +113,7 @@ public class ElasticSearchClientBuilder implements InitializingBean {
             if (Boolean.TRUE.equals(clusterInfo.getSniff())) {
                 Sniffer.builder(restClient).setSniffIntervalMillis(clusterInfo.getSniffIntervalMillis()).build();
             }
-            RestHighLevelClient client = new RestHighLevelClient(restClientBuilder);
+            CustomRestHighLevelClient client = new CustomRestHighLevelClient(restClientBuilder);
             HIGH_LEVEL_CLIENT_MAP.put(clusterName, client);
             LOW_LEVEL_CLIENT_MAP.put(clusterName, restClientBuilder.build());
             BULK_PROCESSOR_MAP.put(clusterName, this.bulkProcessor(client));

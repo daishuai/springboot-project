@@ -1,10 +1,13 @@
 package com.daishuai.demo.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.util.Enumeration;
 
 /**
@@ -16,6 +19,9 @@ import java.util.Enumeration;
 public class WeChatController {
 
     private static final String WECHAT_TOKEN = "SpringSocial-WeChat";
+
+    @Value("#{T(java.net.Inet4Address).getLocalHost().getHostAddress().replaceAll('\\.', '-')}")
+    private String ip;
 
     @GetMapping(value = "/weChat.do")
     public String get(HttpServletRequest request) {
@@ -38,7 +44,7 @@ public class WeChatController {
         // 随机字符串
         String echostr = request.getParameter("echostr");
         log.info("signature: {}, timestamp: {}, nonce: {}, echostr: {}", signature, timestamp, nonce, echostr);
-        return echostr;
+        return ip;
     }
 
 }
