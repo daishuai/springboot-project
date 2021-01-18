@@ -10,7 +10,3 @@ spring:
     show-sql: false
   main:
     allow-bean-definition-overriding: true
-#    driver-class-name: oracle.jdbc.OracleDriver
-#    username: c##keda
-#    password: root
-#    url: jdbc:oracle:thin:@localhost:1521/ORCL
