@@ -33,7 +33,7 @@ public class WebSocketOnConnectEventListener implements ApplicationListener<Sess
         }
         
         if (StringUtils.isBlank(onDisconnectTopic)) {
-            throw new ValidationException("onDisconnectTopic 必填");
+            //throw new ValidationException("onDisconnectTopic 必填");
         }
         
         log.info("onDisconnectTopic {} ", onDisconnectTopic);
