@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Stomp Receiving Example</title>
+</head>
+<body>
+<div>
+    <div>
+        <div>
+            <button id="connect" onclick="connect();">Connect</button>
+            <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+        </div>
+        <div id="conversationDiv">
+            <p>
+                <label>userId 1 notice content?</label>
+            </p>
+            <p>
+                <textarea id="name" rows="5"></textarea>
+            </p>
+            <button id="sendTo" onclick="sendTo();">sendTo1</button>
+            <button id="sendTo" onclick="sendTo2();">sendTo2</button>
+            <p id="response"></p>
+        </div>
+    </div>
+</div>
+<div>
+    <h3>Messages:</h3>
+    <ol id="messages"></ol>
+</div>
+<script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="../sockjs.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script type="text/javascript">
+    var messageList = $("#messages");
+    var stompClient = null;
+    function setConnected(connected) {
+        document.getElementById('connect').disabled = connected;
+        document.getElementById('disconnect').disabled = !connected;
+        document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
+        document.getElementById('response').innerHTML = '';
+    }
+    // 开启socket连接
+    function connect() {
+	  var socket = new SockJS('http://localhost:8093/ws/stomp');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({
+            clientId: "wangwu",
+            userId: "2c94a97b771fec050177484a38b10188",
+            uniqueKey: "abcdefghijklmn",
+            onDisconnectTopic: '/disconnectTopic'
+        }, function (frame) {
+            setConnected(true);
+            subscribe();
+        });
+    }
+    // 断开socket连接
+    function disconnect() {
+        if (stompClient != null) {
+            stompClient.disconnect(function (frame) {
+                setConnected(false);
+            }, {"userId": "userIdTest", "onDisconnectTopic": "/topic", "clientId": "kem_frontline"});
+        }
+        console.log("Disconnected");
+    }
+    // send to server
+    function sendTo() {
+        const value = document.getElementById('name').value;
+        stompClient.send("/ws/welcome/ping", {}, JSON.stringify([]));
+    }
+    // subscribe
+    // 客户端订阅的时候需要将参数传给服务器，key值为"param"，value为JsonString
+    function subscribe() {
+        const params = {
+            "subscribeId": "123",
+			"pageNum":0,"pageSize":10,"deptCode":"5e10e7d4c651428a86977f5fe0947204","zrztList":[1]
+        };
+        console.log("subscribe");
+        stompClient.subscribe("/user/queue/demo-socket/pong", function (data) {
+            const message = data.body;
+            const rt = {
+                messageId: data.headers.messageId
+            }
+            messageList.append("<li>" + 'subscribe'  + message + "</li>");
+            data.ack(rt);
+        }, {"id": "subscribeId-000001", "params": JSON.stringify(params), ack: 'client-individual'});
+    }
+</script>
+</body>
+</html>
