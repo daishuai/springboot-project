@@ -56,7 +56,7 @@ public class DemoController {
         message.put("code", "200");
         message.put("message", "处理成功");
         message.put("timestamp", System.currentTimeMillis());
-        simpMessagingTemplate.convertAndSend("/user/queue/socket-demo/pong", message);
+        simpMessagingTemplate.convertAndSend("/user/queue/demo-socket/pong", message);
     }
     
 }

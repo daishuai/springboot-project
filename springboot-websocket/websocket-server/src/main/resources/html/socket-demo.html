@@ -40,7 +40,7 @@
     }
     // 开启socket连接
     function connect() {
-	  var socket = new SockJS('http://localhost:8093/ws/stomp');
+	  var socket = new SockJS('http://localhost:8082/ws/stomp');
         stompClient = Stomp.over(socket);
         stompClient.connect({
             clientId: "wangwu",
@@ -69,10 +69,6 @@
     // subscribe
     // 客户端订阅的时候需要将参数传给服务器，key值为"param"，value为JsonString
     function subscribe() {
-        const params = {
-            "subscribeId": "123",
-			"pageNum":0,"pageSize":10,"deptCode":"5e10e7d4c651428a86977f5fe0947204","zrztList":[1]
-        };
         console.log("subscribe");
         stompClient.subscribe("/user/queue/demo-socket/pong", function (data) {
             const message = data.body;
@@ -81,7 +77,7 @@
             }
             messageList.append("<li>" + 'subscribe'  + message + "</li>");
             data.ack(rt);
-        }, {"id": "subscribeId-000001", "params": JSON.stringify(params), ack: 'client-individual'});
+        }, {ack: 'client-individual'});
     }
 </script>
 </body>
