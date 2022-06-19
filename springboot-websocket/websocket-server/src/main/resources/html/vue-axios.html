@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<head>
+    <title>Vue-axios</title>
+</head>
+<body>
+<div id="app">
+    {{message}}
+    <input type="text" v-model="message">
+    <p v-text="textInfo"></p>
+    <p v-html="textInfo"></p>
+    <a href="http://www.baidu.com">音乐</a>
+    <input type="button" value="事件绑定-单击" v-on:click="clickEvent">
+    <input type="button" value="事件绑定-单击" @click="clickEvent">
+    <input type="button" value="事件绑定-鼠标移入" @mouseenter="mouseenterEvent">
+    <input type="button" value="事件绑定-双击" @dblclick="changeMessage">
+    <input type="button" value="-" @click="decrease">
+    <span>{{number}}</span>
+    <input type="button" value="+" @click="increase">
+    <img src="vue-axios.html" v-show="isShow" alt="v-show">
+    <img src="vue-axios.html" v-show="age>=20" alt="v-show">
+    <img src="vue-axios.html" v-if="age>=20" alt="v-show">
+    <ul>
+        <li v-for="(fruit, index) in fruits">{{fruit}}-{{index}}</li>
+    </ul>
+    <input type="button" value="get请求" @click="getJokes">
+</div>
+
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+    //
+    const app = new Vue({
+        el: "#app",
+        data: {
+            message: 'Hello Vue!',
+            number: 0,
+            textInfo: '<a href="http://www.baidu.com">音乐</a>',
+            isShow: true,
+            age: 122,
+            fruits: ['苹果', '橘子', '葡萄', '梨', '香蕉']
+        },
+        methods: {
+            clickEvent: function () {
+                alert("事件绑定-单机")
+            },
+            mouseenterEvent: function () {
+                alert("事件绑定-鼠标移入")
+            },
+            changeMessage: function () {
+                this.message = 'Change Message';
+            },
+            decrease: function () {
+                if (this.number <= 0) {
+                    alert("不要再点了,已经是最小值了!")
+                    return;
+                }
+                this.number -= 1;
+            },
+            increase: function () {
+                if (this.number >= 10) {
+                    alert("已经是最大值了,不要再点了!")
+                    return;
+                }
+                this.number += 1;
+            },
+            getJokes: function () {
+                axios.get("https://autumnfish.cn/api/joke/list?num=3")
+                    .then(function (response) {
+                        console.log(response);
+                    }, function (error) {
+                        console.log(error);
+                    })
+            }
+        }
+    });
+</script>
+</body>
+</html>
