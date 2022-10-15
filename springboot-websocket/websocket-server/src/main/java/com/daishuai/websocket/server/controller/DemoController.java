@@ -50,7 +50,7 @@ public class DemoController {
         kdWebSocketService.send(defaultVo);
     }
 
-    @Scheduled(cron = "0/5 * * * * ?")
+    @Scheduled(cron = "0/10 * * * * ?")
     public void socketTask() {
         Map<String, Object> message = new HashMap<>();
         message.put("code", "200");

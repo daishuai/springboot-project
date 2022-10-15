@@ -12,7 +12,7 @@ import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
  * @date 2019/8/10 11:09
  */
 @Slf4j
-@Component
+//@Component
 public class WebSocketOnUnsubscribeEventListener implements ApplicationListener<SessionUnsubscribeEvent> {
     
     @Override

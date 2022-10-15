@@ -12,7 +12,7 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
  * @date 2019/8/10 11:08
  */
 @Slf4j
-@Component
+//@Component
 public class WebSocketOnConnectedEventListener implements ApplicationListener<SessionConnectedEvent> {
     
     @Override

@@ -3,9 +3,13 @@ package com.daishuai.websocket.server.listener;
 import com.daishuai.websocket.server.common.CommonCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
+
+import javax.annotation.Resource;
+import java.security.Principal;
 
 /**
  * @author Daishuai
@@ -15,7 +19,9 @@ import org.springframework.web.socket.messaging.SessionConnectEvent;
 @Slf4j
 @Component
 public class KemWebSocketOnConnectEventListener implements ApplicationListener<SessionConnectEvent> {
-    
+
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
     @Override
     public void onApplicationEvent(SessionConnectEvent sessionConnectEvent) {
         
@@ -27,5 +33,9 @@ public class KemWebSocketOnConnectEventListener implements ApplicationListener<S
         log.info("OnConnect 参数 {} ...", sha);
         sha.getSessionAttributes().put("userId", userId);
         sha.getSessionAttributes().put("clientId", clientId);
+        String sessionId = sha.getSessionId();
+        Principal user = sessionConnectEvent.getUser();
+        String name = user.getName();
+        stringRedisTemplate.opsForValue().set("WebSocketSession:" + name, sessionId);
     }
 }

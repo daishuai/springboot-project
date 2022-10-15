@@ -8,13 +8,15 @@ import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 
+import java.security.Principal;
+
 /**
  * @author Daishuai
  * @description WebSocket Connected Listener
  * @date 2019/8/10 11:32
  */
 @Slf4j
-@Component
+//@Component
 public class KemWebSocketOnConnectedEventListener implements ApplicationListener<SessionConnectedEvent> {
     
     @Override

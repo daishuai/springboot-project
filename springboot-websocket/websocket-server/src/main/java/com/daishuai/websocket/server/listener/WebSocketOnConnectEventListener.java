@@ -15,7 +15,7 @@ import javax.validation.ValidationException;
  * @date 2019/8/10 11:08
  */
 @Slf4j
-@Component
+//@Component
 public class WebSocketOnConnectEventListener implements ApplicationListener<SessionConnectEvent> {
     
     @Override

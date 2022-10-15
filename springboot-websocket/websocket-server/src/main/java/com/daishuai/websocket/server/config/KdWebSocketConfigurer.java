@@ -16,8 +16,10 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.ChannelInterceptorAdapter;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.messaging.StompSubProtocolErrorHandler;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ import java.util.List;
 @ComponentScan("com.daishuai.websocket.server")
 @EnableConfigurationProperties(value = {WebSocketProperties.class})
 @EnableWebSocketMessageBroker
+@EnableWebSocket
 public class KdWebSocketConfigurer extends AbstractWebSocketMessageBrokerConfigurer {
     
     @Autowired
@@ -45,6 +48,7 @@ public class KdWebSocketConfigurer extends AbstractWebSocketMessageBrokerConfigu
                 .addEndpoint(webSocketProperties.getEndPoint())
                 .setAllowedOrigins(webSocketProperties.getAllowedOrigins())
                 .withSockJS();
+        stompEndpointRegistry.setErrorHandler(new StompSubProtocolErrorHandler());
     }
     
     @Override

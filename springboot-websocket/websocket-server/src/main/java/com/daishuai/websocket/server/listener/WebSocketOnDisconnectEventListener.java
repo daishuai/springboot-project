@@ -13,7 +13,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
  * 断开事件,当某个客户端断开连接之后.发送消息到某个topic
  */
 @Slf4j
-@Component
+//@Component
 public class WebSocketOnDisconnectEventListener implements ApplicationListener<SessionDisconnectEvent> {
     
     @Autowired
