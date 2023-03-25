@@ -1,6 +1,5 @@
 server:
   port: 8082
-  context-path: /shuai8082
 logging:
   level:
     org:
@@ -10,9 +9,14 @@ logging:
           socket: info
 commons:
   websocket:
-    heart-beat-interval: 15000
+    heart-beat-interval: 10000
+virtual-host:
+  centos: 192.168.220.128
 spring:
   redis:
-    host: 192.168.220.128
-    port: 6379
+    host: ${virtual-host.centos}
+    port: 6380
     password: 123456
+    sentinel:
+      master: mymaster
+      nodes: ${virtual-host.centos}:26380,${virtual-host.centos}:26381,${virtual-host.centos}:26382

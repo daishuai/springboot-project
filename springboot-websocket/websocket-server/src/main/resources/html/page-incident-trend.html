@@ -26,14 +26,12 @@
     <h3>Messages:</h3>
     <ol id="messages"></ol>
 </div>
-<script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="../sockjs.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script type="text/javascript">
     var messageList = $("#messages");
     var stompClient = null;
-    // 重试次数
-    var tryTimes = 0;
     function setConnected(connected) {
         document.getElementById('connect').disabled = connected;
         document.getElementById('disconnect').disabled = !connected;
@@ -42,38 +40,29 @@
     }
     // 开启socket连接
     function connect() {
-	  var socket = new SockJS('http://localhost:8082/ws/stomp');
+	  var socket = new SockJS('http://iacs-dev.devdolphin.com/kircp-servers/kircp/ws/stomp');
         stompClient = Stomp.over(socket);
-        // stompClient.connect(headers, connectCallback, errorCallback);
-        // 设置心跳
-        stompClient.heartbeat.outgoing = 5000;
-        stompClient.heartbeat.incoming = 5000;
         stompClient.connect({
-            clientId: guid(),
-            userId: 'wangwu',
-            uniqueKey: "abcdefghijklmn",
-            onDisconnectTopic: '/disconnectTopic'
+            clientId: 'wangwu',
+            userId: '2c94a97b771fec050177484a38b10188',
+            onDisconnectTopic: '/topic',
+            uniqueKey: 'abcdefghijklmn'
         }, function (frame) {
             setConnected(true);
             subscribe();
-        }, errorCallback => {
-            console.log('=============error==============' + errorCallback);
-            reconnect();
         });
-    }
-    function reconnect() {
-        if (tryTimes > 10) {
-            console.log('重试次数已达上限')
-            return;
-        }
-        setTimeout(() => connect(), 3000);
     }
     // 断开socket连接
     function disconnect() {
+        const header = {
+            userId: 'userIdTest',
+            onDisconnectTopic: '/topic',
+            clientId: 'kem_frontline'
+        }
         if (stompClient != null) {
             stompClient.disconnect(function (frame) {
                 setConnected(false);
-            }, {"userId": "userIdTest", "onDisconnectTopic": "/topic", "clientId": "kem_frontline"});
+            }, header);
         }
         console.log("Disconnected");
     }
@@ -85,21 +74,22 @@
     // subscribe
     // 客户端订阅的时候需要将参数传给服务器，key值为"param"，value为JsonString
     function subscribe() {
+        const params = {
+            businessType: 'pageQueryIncidentTrend',
+            pageNo: 0,
+            pageSize: 10,
+            incidentCode: '20221208142759A',
+            type: '05'
+        };
         console.log("subscribe");
-        stompClient.subscribe("/user/queue/demo-socket/pong", function (data) {
+        const header = {
+            id: 'subscribeId-000001',
+            params: JSON.stringify(params)
+        }
+        stompClient.subscribe("/user/queue/" + params.incidentCode + "/" + params.type + "/" + params.businessType +  "/pong", function (data) {
             const message = data.body;
-            const rt = {
-                messageId: data.headers.messageId
-            }
             messageList.append("<li>" + 'subscribe'  + message + "</li>");
-            data.ack(rt);
-        });
-    }
-    function guid() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
-            return v.toString(16);
-        });
+        }, header);
     }
 </script>
 </body>

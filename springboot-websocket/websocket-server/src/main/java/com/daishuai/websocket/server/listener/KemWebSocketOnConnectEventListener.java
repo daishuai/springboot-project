@@ -36,6 +36,6 @@ public class KemWebSocketOnConnectEventListener implements ApplicationListener<S
         String sessionId = sha.getSessionId();
         Principal user = sessionConnectEvent.getUser();
         String name = user.getName();
-        stringRedisTemplate.opsForValue().set("WebSocketSession:" + name, sessionId);
+        //stringRedisTemplate.opsForValue().set("WebSocketSession:" + name, sessionId);
     }
 }

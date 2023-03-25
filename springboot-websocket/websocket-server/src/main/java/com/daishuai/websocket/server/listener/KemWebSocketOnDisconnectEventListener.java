@@ -32,11 +32,14 @@ public class KemWebSocketOnDisconnectEventListener implements ApplicationListene
         log.info("socket disconnected, status: {}, reason: {}", closeStatus.getCode(), closeStatus.getReason());
 
         Principal user = sessionDisconnectEvent.getUser();
+        if (user == null) {
+            return;
+        }
         String name = user.getName();
-        if (StringUtils.equals(sessionId, stringRedisTemplate.opsForValue().get("WebSocketSession:" + name))) {
+        /*if (StringUtils.equals(sessionId, stringRedisTemplate.opsForValue().get("WebSocketSession:" + name))) {
             System.out.println("同一个Session: " + sessionId);
         } else {
             System.out.println("不是同一个Session: " + sessionId);
-        }
+        }*/
     }
 }
