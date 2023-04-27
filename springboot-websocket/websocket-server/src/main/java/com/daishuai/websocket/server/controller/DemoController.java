@@ -68,7 +68,7 @@ public class DemoController {
         message.put("message", "处理成功");
         message.put("timestamp", System.currentTimeMillis());
         stringRedisTemplate.opsForValue().set("name", "helloworld");
-        simpMessagingTemplate.convertAndSend("/user/75dd6aefbf3c43e69fe3b90b6f0ec4d4/allMessageBus/pong", message);
+        simpMessagingTemplate.convertAndSend("/user/demo/pong", message);
     }
     
 }
