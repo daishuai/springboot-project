@@ -53,7 +53,7 @@ public interface QuartzJobService {
      * @param cronExp   执行频率
      * @param param 任务参数
      */
-    void updateJob(String jobName, String groupName, String cronExp, Map<String, Object> param);
+    boolean updateJob(String jobName, String groupName, String cronExp, Map<String, Object> param);
 
     /**
      * 删除任务

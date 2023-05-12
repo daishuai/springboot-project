@@ -71,10 +71,14 @@ public class QuartzJobServiceImpl implements QuartzJobService {
     }
 
     @Override
-    public void updateJob(String jobName, String groupName, String cronExp, Map<String, Object> param) {
+    public boolean updateJob(String jobName, String groupName, String cronExp, Map<String, Object> param) {
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(jobName, groupName);
             CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
+            if (trigger == null) {
+                log.warn("任务不存在");
+                return false;
+            }
             if (cronExp != null) {
                 // 表达式调度构建器
                 CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExp);
@@ -87,8 +91,10 @@ public class QuartzJobServiceImpl implements QuartzJobService {
             }
             // 按新的trigger重新设置job执行
             scheduler.rescheduleJob(triggerKey, trigger);
+            return true;
         } catch (Exception e) {
             log.error("更新任务失败", e);
+            return false;
         }
     }
 
