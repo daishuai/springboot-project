@@ -2,6 +2,7 @@ package com.daishuai.quartz.job;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
@@ -14,6 +15,7 @@ import java.util.Date;
  * @createTime 2023年05月12日 09:52:00
  */
 @Slf4j
+@DisallowConcurrentExecution
 public class TfCommondJob implements Job {
     @Override
     public void execute(JobExecutionContext context) {
