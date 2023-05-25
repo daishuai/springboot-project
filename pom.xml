@@ -12,6 +12,8 @@
         <module>springboot-websocket</module>
         <module>springboot-rocketmq</module>
         <module>springboot-quartz</module>
+        <module>springboot-event</module>
+        <module>springboot-netty</module>
     </modules>
 
     <parent>
