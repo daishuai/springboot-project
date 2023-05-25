@@ -1,0 +1,7 @@
+server:
+  port: 8091
+
+kem:
+  suite:
+    network-comm:
+      mode: server
