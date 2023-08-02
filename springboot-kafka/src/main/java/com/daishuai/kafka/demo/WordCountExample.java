@@ -42,7 +42,7 @@ public class WordCountExample {
         KafkaStreams kafkaStreams = new KafkaStreams(builder.build(), props);
         kafkaStreams.cleanUp();;
         kafkaStreams.start();
-        Thread.sleep(5000L);
-        kafkaStreams.close();
+        //Thread.sleep(5000L);
+        //kafkaStreams.close();
     }
 }

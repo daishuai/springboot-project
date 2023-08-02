@@ -42,7 +42,7 @@
     }
     // 开启socket连接
     function connect() {
-	  var socket = new SockJS('http://localhost:8082/ws/stomp');
+	  var socket = new SockJS('http://localhost:9998/ws/stomp');
         stompClient = Stomp.over(socket);
         // stompClient.connect(headers, connectCallback, errorCallback);
         // 设置心跳
@@ -86,14 +86,18 @@
     // 客户端订阅的时候需要将参数传给服务器，key值为"param"，value为JsonString
     function subscribe() {
         console.log("subscribe");
-        stompClient.subscribe("/user/queue/demo-socket/pong", function (data) {
+        var params = {
+            'businessType': 'hello',
+            alarmCode: '123456'
+        }
+        stompClient.subscribe("/user/queue" + "/" + params.alarmCode + "/" + params.businessType + "/pong", function (data) {
             const message = data.body;
             const rt = {
                 messageId: data.headers.messageId
             }
             messageList.append("<li>" + 'subscribe'  + message + "</li>");
             data.ack(rt);
-        });
+        }, {'id': '13123123123', 'params':JSON.stringify(params)});
     }
     function guid() {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
