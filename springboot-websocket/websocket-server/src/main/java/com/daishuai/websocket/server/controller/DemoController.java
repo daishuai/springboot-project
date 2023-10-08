@@ -1,10 +1,14 @@
 package com.daishuai.websocket.server.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.daishuai.websocket.server.utils.AesEncryptUtils;
+import com.daishuai.websocket.server.utils.RSAUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -23,11 +27,37 @@ public class DemoController {
     @Resource
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    
-    
+    @GetMapping(value = "/publicKey")
+    public Map<String, Object> getPublicKey() {
+        String publicKey = RSAUtil.generateBase64PublicKey();
+        String key = AesEncryptUtils.initHexKey();
+        Map<String, Object> map = new HashMap<>();
+        map.put("publicKey", publicKey);
+        map.put("aesKey", key);
+        return map;
+    }
+
+
     @MessageMapping("/demo/ping")
     public void personalData(Map<String, Object> defaultVo) {
         log.info("接收到客户端发送的消息: {}", JSON.toJSONString(defaultVo));
+    }
+
+    @MessageMapping("/welcome/ping")
+    public void welcomePing(Map<String, Object> defaultVo) throws Exception {
+        log.info("接收到客户端发送的消息: {}", JSON.toJSONString(defaultVo));
+        String password = MapUtils.getString(defaultVo, "password");
+        String decryptPassword = RSAUtil.decryptBase64(password);
+        log.info(decryptPassword);
+    }
+
+    @MessageMapping("/aesEncrypt/ping")
+    public void aesEncrypt(Map<String, Object> defaultVo) throws Exception {
+        log.info("接收到客户端发送的消息: {}", JSON.toJSONString(defaultVo));
+        String password = MapUtils.getString(defaultVo, "password");
+        String key = MapUtils.getString(defaultVo, "key");
+        String decryptPassword = AesEncryptUtils.decrypt(password, key);
+        log.info(decryptPassword);
     }
 
     @Scheduled(cron = "0/3 * * * * ?")
@@ -38,5 +68,5 @@ public class DemoController {
         message.put("timestamp", System.currentTimeMillis());
         simpMessagingTemplate.convertAndSend("/user/demo/pong", message);
     }
-    
+
 }

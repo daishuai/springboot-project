@@ -14,6 +14,7 @@
     <modules>
         <module>websocket-server</module>
         <module>websocket-client</module>
+        <module>websocket-rabbitmq</module>
     </modules>
 
 

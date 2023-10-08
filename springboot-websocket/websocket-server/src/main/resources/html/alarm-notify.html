@@ -18,7 +18,6 @@
                 <label for="name"></label><textarea id="name" rows="5"></textarea>
             </p>
             <button id="sendTo" onclick="sendTo();">sendTo1</button>
-            <button id="sendTo1" onclick="sendTo1();">sendTo2</button>
             <p id="response"></p>
         </div>
     </div>
@@ -27,7 +26,7 @@
     <h3>Messages:</h3>
     <ol id="messages"></ol>
 </div>
-<script src="http://cdn.bootcdn.net/ajax/libs/crypto-js/4.0.0/crypto-js.js"></script>
+<script src="https://kjur.github.io/jsrsasign/jsrsasign-latest-all-min.js"></script>
 <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="../sockjs.min.js"></script>
 <script type="text/javascript" src="../jsencrypt.min.js"></script>
@@ -47,7 +46,7 @@
 
     // 开启socket连接
     function connect() {
-        var socket = new SockJS('http://localhost:8082/ws/stomp');
+        const socket = new SockJS('http://fire-dev.devdolphin.com/kem-smartmedia-server/ws/stomp');
         stompClient = Stomp.over(socket);
         // stompClient.connect(headers, connectCallback, errorCallback);
         // 设置心跳
@@ -87,50 +86,19 @@
 
     // send to server
     function sendTo() {
-        // Ajax请求公钥
-        $.get('http://localhost:8082/publicKey', function (response) {
-            console.log(response)
-            const publicKey = response.publicKey
-            console.log(publicKey)
-            let encrypt = new JSEncrypt();
-            encrypt.setPublicKey(publicKey);
-            let encryptPassword = encrypt.encrypt('password123')
-            var data = {
-                'password': encryptPassword
-            }
-            stompClient.send("/ws/welcome/ping", {}, JSON.stringify(data));
-        })
-    }
-
-    function sendTo1() {
-        // Ajax请求公钥
-        $.get('http://localhost:8082/publicKey', function (response) {
-            const publicKey = response.aesKey
-            console.log(publicKey)
-            const messageHex = CryptoJS.enc.Utf8.parse('password123')
-            const keyHex = CryptoJS.enc.Utf8.parse(publicKey)
-            const encrypted = CryptoJS.AES.encrypt(messageHex, keyHex, {
-                mode: CryptoJS.mode.ECB,
-                padding: CryptoJS.pad.Pkcs7
-            })
-            const data = {
-                'password': encrypted.toString(),
-                'key': publicKey
-            };
-            console.log(encrypted.toString())
-            stompClient.send("/ws/aesEncrypt/ping", {}, JSON.stringify(data));
-        })
+        const value = document.getElementById('name').value;
+        stompClient.send("/ws/welcome/ping", {}, JSON.stringify([]));
     }
 
     // subscribe
     // 客户端订阅的时候需要将参数传给服务器，key值为"param"，value为JsonString
     function subscribe() {
         console.log("subscribe");
-        const params = {
+        var params = {
             'businessType': 'hello',
             alarmCode: '123456'
         }
-        stompClient.subscribe("/user/queue" + "/" + params.alarmCode + "/" + params.businessType + "/pong", function (data) {
+        stompClient.subscribe("/user/queue/a723f81732dc4562b3533883f3a96ca8/alarmNotify/pong", function (data) {
             const message = data.body;
             const rt = {
                 messageId: data.headers.messageId
@@ -146,6 +114,7 @@
             return v.toString(16);
         });
     }
+
 </script>
 </body>
 </html>

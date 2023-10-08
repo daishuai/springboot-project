@@ -1,0 +1,13 @@
+name: push-event
+on: push
+jobs:
+  first-job:
+    name: first-job
+    evn:
+      FIRST_NAME: Nona  # 环境变量
+    runs-on: windows-2019 # 运行环境
+    needs: job-name # 依赖彼得job的输出
+    outputs:
+      output1: ${{stemp.step1.outputs.test}
+    steps:
+      - run: echo ${{needs.job1.outputs.output1}
