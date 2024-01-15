@@ -25,7 +25,7 @@ public class WebSocketProperties {
     /**
      * 订阅的主题
      */
-    private String[] enableSimpleBroker = {"/queue", "/topic", "/user", "/client"};
+    private String[] enableSimpleBroker = {"/user", "/queue", "/topic", "/client"};
     
     /**
      * 客户端发送消息时的前缀

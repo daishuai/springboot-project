@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>WebSocket Stomp Receiving Example</title>
+    <meta charset="UTF-8">
+    <title>WebSocket测试Demo</title>
 </head>
 <body>
 <div>
@@ -18,6 +19,8 @@
                 <label for="name"></label><textarea id="name" rows="5"></textarea>
             </p>
             <button id="sendTo" onclick="sendTo();">sendTo1</button>
+            <button id="sendTo1" onclick="sendTo1();">sendTo2</button>
+            <button id="login" onclick="login();">login</button>
             <p id="response"></p>
         </div>
     </div>
@@ -32,10 +35,10 @@
 <script type="text/javascript" src="../jsencrypt.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script type="text/javascript">
-    var messageList = $("#messages");
-    var stompClient = null;
+    const messageList = $("#messages");
+    let stompClient = null;
     // 重试次数
-    var tryTimes = 0;
+    const tryTimes = 0;
 
     function setConnected(connected) {
         document.getElementById('connect').disabled = connected;
@@ -53,14 +56,13 @@
         stompClient.heartbeat.outgoing = 5000;
         stompClient.heartbeat.incoming = 5000;
         stompClient.connect({
-            clientId: "helloworld",
+            clientId: guid(),
             userId: 'wangwu',
             uniqueKey: "abcdefghijklmn",
             onDisconnectTopic: '/disconnectTopic'
         }, function (frame) {
             setConnected(true);
             subscribe();
-            // subscribe1()
         }, errorCallback => {
             console.log('=============error==============' + errorCallback);
             reconnect();
@@ -101,33 +103,67 @@
         })
     }
 
+    function sendTo1() {
+        // Ajax请求公钥
+        const publicKey = 'b7a09edc005e06d19d261f1592436087'
+        console.log(publicKey)
+        const messageHex = CryptoJS.enc.Utf8.parse('password123')
+        const keyHex = CryptoJS.enc.Utf8.parse(publicKey)
+        const encrypted = CryptoJS.AES.encrypt(messageHex, keyHex, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        })
+        console.log(encrypted.toString())
+        const data = {
+            'password': encrypted.toString(),
+            'key': publicKey
+        };
+        console.log(encrypted.toString())
+        stompClient.send("/ws/aesEncrypt/ping", {}, JSON.stringify(data));
+    }
+
+    function login() {
+        const username = 'admin';
+        const password = 'hello-world';
+        const publicKey = 'b7a09edc005e06d19d261f1592436087';
+        console.log(publicKey)
+        const messageHex = CryptoJS.enc.Utf8.parse(password)
+        const keyHex = CryptoJS.enc.Utf8.parse(publicKey)
+        const encrypted = CryptoJS.AES.encrypt(messageHex, keyHex, {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        })
+        let encryptPassword = encrypted.toString()
+        const data = {
+            username: username,
+            password: encryptPassword
+        }
+        $.ajax({
+            url: 'http://localhost:8093/auth/login',
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            success: function (response) {
+                console.log(response)
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+    }
+
     // subscribe
     // 客户端订阅的时候需要将参数传给服务器，key值为"param"，value为JsonString
     function subscribe() {
         console.log("subscribe");
         const params = {
-            businessType: 'countByRunningStatus',
-            departmentCode: '9b19ab64f84a461fb14eef9d8bd9783a',
-            runningStatus: '03'
+            'businessType': 'hello',
+            alarmCode: '123456'
         }
-        stompClient.subscribe("/queue/demo/pong", function (data) {
-            const message = data.body;
-            const rt = {
-                messageId: data.headers.messageId
-            }
-            messageList.append("<li>" + 'subscribe' + message + "</li>");
-            data.ack(rt);
-        }, {'params': JSON.stringify(params)});
-    }
-
-    function subscribe1() {
-        console.log("subscribe");
-        const params = {
-            businessType: 'countByRunningStatus',
-            departmentCode: '9b19ab64f84a461fb14eef9d8bd9783a',
-            runningStatus: '03'
-        }
-        stompClient.subscribe("/queue/demo/pong", function (data) {
+        stompClient.subscribe("/user/queue" + "/" + params.alarmCode + "/" + params.businessType + "/pong", function (data) {
             const message = data.body;
             const rt = {
                 messageId: data.headers.messageId

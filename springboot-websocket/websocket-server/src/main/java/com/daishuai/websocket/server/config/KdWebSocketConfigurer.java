@@ -46,7 +46,7 @@ public class KdWebSocketConfigurer extends AbstractWebSocketMessageBrokerConfigu
         // 注册一个Stomp的节点（endpoint）,并指定使用SockJS协议。
         stompEndpointRegistry
                 .addEndpoint(webSocketProperties.getEndPoint())
-                .setAllowedOrigins(webSocketProperties.getAllowedOrigins())
+                .setAllowedOriginPatterns(webSocketProperties.getAllowedOrigins())
                 .withSockJS();
         stompEndpointRegistry.setErrorHandler(new StompSubProtocolErrorHandler());
     }
@@ -67,6 +67,7 @@ public class KdWebSocketConfigurer extends AbstractWebSocketMessageBrokerConfigu
                 .setTaskScheduler(taskScheduler);
         // 定义webSocket前缀
         registry.setApplicationDestinationPrefixes(webSocketProperties.getApplicationDestinationPrefixes());
+        registry.setUserDestinationPrefix("/user");
     }
 
     @Override

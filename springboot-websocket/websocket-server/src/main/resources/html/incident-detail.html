@@ -46,21 +46,20 @@
 
     // 开启socket连接
     function connect() {
-        var socket = new SockJS('http://localhost:8082/ws/stomp');
+        var socket = new SockJS('http://localhost:8093/kircp/ws/stomp');
         stompClient = Stomp.over(socket);
         // stompClient.connect(headers, connectCallback, errorCallback);
         // 设置心跳
         stompClient.heartbeat.outgoing = 5000;
         stompClient.heartbeat.incoming = 5000;
         stompClient.connect({
-            clientId: "helloworld",
+            clientId: '1232112313',
             userId: 'wangwu',
             uniqueKey: "abcdefghijklmn",
             onDisconnectTopic: '/disconnectTopic'
         }, function (frame) {
             setConnected(true);
             subscribe();
-            // subscribe1()
         }, errorCallback => {
             console.log('=============error==============' + errorCallback);
             reconnect();
@@ -106,11 +105,12 @@
     function subscribe() {
         console.log("subscribe");
         const params = {
-            businessType: 'countByRunningStatus',
-            departmentCode: '9b19ab64f84a461fb14eef9d8bd9783a',
-            runningStatus: '03'
+            businessType: 'incidentDetail',
+            incidentCode: '20240112150214A',
+            type: 'zqwx',
+            timestamp: 0
         }
-        stompClient.subscribe("/queue/demo/pong", function (data) {
+        stompClient.subscribe("/user/queue" + "/" + params.incidentCode + "/" + params.type + "/" + params.businessType + "/pong", function (data) {
             const message = data.body;
             const rt = {
                 messageId: data.headers.messageId
@@ -118,23 +118,6 @@
             messageList.append("<li>" + 'subscribe' + message + "</li>");
             data.ack(rt);
         }, {'params': JSON.stringify(params)});
-    }
-
-    function subscribe1() {
-        console.log("subscribe");
-        const params = {
-            businessType: 'countByRunningStatus',
-            departmentCode: '9b19ab64f84a461fb14eef9d8bd9783a',
-            runningStatus: '03'
-        }
-        stompClient.subscribe("/queue/demo/pong", function (data) {
-            const message = data.body;
-            const rt = {
-                messageId: data.headers.messageId
-            }
-            messageList.append("<li>" + 'subscribe' + message + "</li>");
-            data.ack(rt);
-        }, {'id': '13123123123', 'params': JSON.stringify(params)});
     }
 
     function guid() {

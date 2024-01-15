@@ -1,0 +1,12 @@
+spring:
+  main:
+    web-application-type: reactive
+  webflux:
+    base-path: /gate
+  mvc:
+    servlet:
+      path: /gate
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
+    reactor.netty.http.client: debug

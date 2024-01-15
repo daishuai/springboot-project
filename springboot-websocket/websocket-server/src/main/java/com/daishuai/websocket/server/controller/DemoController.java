@@ -62,11 +62,15 @@ public class DemoController {
 
     @Scheduled(cron = "0/3 * * * * ?")
     public void socketTask() {
+        log.info("发送消息");
         Map<String, Object> message = new HashMap<>();
         message.put("code", "200");
         message.put("message", "处理成功");
         message.put("timestamp", System.currentTimeMillis());
-        simpMessagingTemplate.convertAndSend("/user/demo/pong", message);
+        message.put("destination", "/queue/demo/pong");
+        simpMessagingTemplate.convertAndSend("/user/queue/demo/pong", message);
+        message.put("destination", "toUser");
+        simpMessagingTemplate.convertAndSendToUser("helloworld","/queue/demo/pong", message);
     }
 
 }

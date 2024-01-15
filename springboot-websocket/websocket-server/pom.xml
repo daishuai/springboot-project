@@ -12,6 +12,12 @@
     <artifactId>websocket-server</artifactId>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-messaging -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>

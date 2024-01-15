@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <title>WebSocket Stomp Receiving Example</title>
 </head>
@@ -26,7 +26,7 @@
     <h3>Messages:</h3>
     <ol id="messages"></ol>
 </div>
-<script src="https://cdn.bootcdn.net/ajax/libs/crypto-js/4.0.0/crypto-js.js"></script>
+<script src="https://kjur.github.io/jsrsasign/jsrsasign-latest-all-min.js"></script>
 <script type="text/javascript" src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="../sockjs.min.js"></script>
 <script type="text/javascript" src="../jsencrypt.min.js"></script>
@@ -46,21 +46,21 @@
 
     // 开启socket连接
     function connect() {
-        var socket = new SockJS('http://localhost:8082/ws/stomp');
+        const socket = new SockJS('http://fire-dev.devdolphin.com/kem-smartmedia-server/ws/stomp');
+        // const socket = new SockJS('http://localhost:8092/ws/stomp');
         stompClient = Stomp.over(socket);
         // stompClient.connect(headers, connectCallback, errorCallback);
         // 设置心跳
         stompClient.heartbeat.outgoing = 5000;
         stompClient.heartbeat.incoming = 5000;
         stompClient.connect({
-            clientId: "helloworld",
+            clientId: guid(),
             userId: 'wangwu',
             uniqueKey: "abcdefghijklmn",
             onDisconnectTopic: '/disconnectTopic'
         }, function (frame) {
             setConnected(true);
             subscribe();
-            // subscribe1()
         }, errorCallback => {
             console.log('=============error==============' + errorCallback);
             reconnect();
@@ -87,47 +87,20 @@
 
     // send to server
     function sendTo() {
-        // Ajax请求公钥
-        $.get('http://localhost:8082/publicKey', function (res) {
-            const publicKey = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCPjft8tgYCeUXNrBAScSV9vWlU9U5K2cwIIMOjCcxJDN03onIeHo/iO4RSA89cGeriphHAxzRdh6VcSq5ZvR6SVSG/iUjGQt7EXmBD4uUkwXDVeU58avQosLzfHxAbNLu72ww/E7UUOMLsrVG6KhbX5/xiLsZBXc5MIwqhjz/pywIDAQAB'
-            console.log(publicKey)
-            let encrypt = new JSEncrypt();
-            encrypt.setPublicKey(publicKey);
-            let encryptPassword = encrypt.encrypt('password123')
-            var data = {
-                'password': encryptPassword
-            }
-            stompClient.send("/ws/welcome/ping", {}, JSON.stringify(data));
-        })
+        const value = document.getElementById('name').value;
+        stompClient.send("/ws/welcome/ping", {}, JSON.stringify([]));
     }
 
     // subscribe
     // 客户端订阅的时候需要将参数传给服务器，key值为"param"，value为JsonString
     function subscribe() {
         console.log("subscribe");
-        const params = {
-            businessType: 'countByRunningStatus',
+        var params = {
+            businessType: 'count2HourAlarmLog',
             departmentCode: '9b19ab64f84a461fb14eef9d8bd9783a',
-            runningStatus: '03'
+            handleStatus: 0
         }
-        stompClient.subscribe("/queue/demo/pong", function (data) {
-            const message = data.body;
-            const rt = {
-                messageId: data.headers.messageId
-            }
-            messageList.append("<li>" + 'subscribe' + message + "</li>");
-            data.ack(rt);
-        }, {'params': JSON.stringify(params)});
-    }
-
-    function subscribe1() {
-        console.log("subscribe");
-        const params = {
-            businessType: 'countByRunningStatus',
-            departmentCode: '9b19ab64f84a461fb14eef9d8bd9783a',
-            runningStatus: '03'
-        }
-        stompClient.subscribe("/queue/demo/pong", function (data) {
+        stompClient.subscribe("/user/queue/9b19ab64f84a461fb14eef9d8bd9783a/0/count2HourAlarmLog/pong", function (data) {
             const message = data.body;
             const rt = {
                 messageId: data.headers.messageId
@@ -143,6 +116,7 @@
             return v.toString(16);
         });
     }
+
 </script>
 </body>
 </html>

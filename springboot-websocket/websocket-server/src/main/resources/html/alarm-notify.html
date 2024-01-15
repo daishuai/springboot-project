@@ -98,7 +98,7 @@
             'businessType': 'hello',
             alarmCode: '123456'
         }
-        stompClient.subscribe("/user/queue/a723f81732dc4562b3533883f3a96ca8/alarmNotify/pong", function (data) {
+        stompClient.subscribe("/user/queue/9b19ab64f84a461fb14eef9d8bd9783a/alarmNotify/pong", function (data) {
             const message = data.body;
             const rt = {
                 messageId: data.headers.messageId
