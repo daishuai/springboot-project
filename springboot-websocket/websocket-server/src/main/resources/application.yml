@@ -4,7 +4,7 @@ logging:
   level:
     org:
       springframework:
-        messaging: info
+        messaging: debug
         web:
           socket: info
 commons:

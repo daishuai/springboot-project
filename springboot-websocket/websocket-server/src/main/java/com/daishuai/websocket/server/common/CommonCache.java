@@ -11,4 +11,6 @@ import java.util.Map;
 public class CommonCache {
     
     public static Map<String, Object> connectMachine = new HashMap<>();
+
+    public static Map<String, String> sessionMap = new HashMap<>();
 }

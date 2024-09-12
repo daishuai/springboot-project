@@ -53,9 +53,9 @@
         stompClient.heartbeat.outgoing = 5000;
         stompClient.heartbeat.incoming = 5000;
         stompClient.connect({
-            clientId: "helloworld",
-            userId: 'wangwu',
-            uniqueKey: "abcdefghijklmn",
+            clientId: "5678",
+            userId: '5678',
+            uniqueKey: "abcdefghijklmn1",
             onDisconnectTopic: '/disconnectTopic'
         }, function (frame) {
             setConnected(true);
@@ -63,7 +63,7 @@
             // subscribe1()
         }, errorCallback => {
             console.log('=============error==============' + errorCallback);
-            reconnect();
+            //reconnect();
         });
     }
 
@@ -97,19 +97,17 @@
     // 客户端订阅的时候需要将参数传给服务器，key值为"param"，value为JsonString
     function subscribe() {
         console.log("subscribe");
-        const params = {
-            businessType: 'countByRunningStatus',
-            departmentCode: '9b19ab64f84a461fb14eef9d8bd9783a',
-            runningStatus: '03'
-        }
-        stompClient.subscribe("/user/queue/demo/pong", function (data) {
+
+        stompClient.subscribe("/user/abcd/demo/pong", function (data) {
             const message = data.body;
             const rt = {
                 messageId: data.headers.messageId
             }
             messageList.append("<li>" + 'subscribe' + message + "</li>");
             data.ack(rt);
-        }, {'params': JSON.stringify(params)});
+        }, {
+            selector: "headers.receiverCode == '机构编号' or headers.receiverCode == '用户编号'"
+        });
     }
 </script>
 </body>

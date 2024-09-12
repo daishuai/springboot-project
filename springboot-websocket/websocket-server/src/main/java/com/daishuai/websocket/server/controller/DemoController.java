@@ -5,8 +5,12 @@ import com.daishuai.websocket.server.utils.AesEncryptUtils;
 import com.daishuai.websocket.server.utils.RSAUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,7 +64,7 @@ public class DemoController {
         log.info(decryptPassword);
     }
 
-    @Scheduled(cron = "0/3 * * * * ?")
+    @Scheduled(cron = "0/10 * * * * ?")
     public void socketTask() {
         log.info("发送消息");
         Map<String, Object> message = new HashMap<>();
@@ -68,9 +72,11 @@ public class DemoController {
         message.put("message", "处理成功");
         message.put("timestamp", System.currentTimeMillis());
         message.put("destination", "/queue/demo/pong");
-        simpMessagingTemplate.convertAndSend("/user/queue/demo/pong", message);
-        message.put("destination", "toUser");
-        simpMessagingTemplate.convertAndSendToUser("helloworld","/queue/demo/pong", message);
+        message.put("type", "alert");
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("type", "alert1");
+        simpMessagingTemplate.convertAndSend("/user/abcd/demo/pong", message, headers);
+        //simpMessagingTemplate.convertAndSendToUser("1234","/user/abcd/demo/pong", message);
     }
 
 }

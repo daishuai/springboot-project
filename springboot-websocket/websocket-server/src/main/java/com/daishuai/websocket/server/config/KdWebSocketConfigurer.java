@@ -20,7 +20,9 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.messaging.StompSubProtocolErrorHandler;
+import org.springframework.web.socket.server.HandshakeInterceptor;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -40,6 +42,8 @@ public class KdWebSocketConfigurer extends AbstractWebSocketMessageBrokerConfigu
 
     @Autowired(required = false)
     private List<ChannelInterceptor> channelInterceptors;
+    @Resource
+    private HandshakeInterceptor authHandshakeInterceptor;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
@@ -47,6 +51,7 @@ public class KdWebSocketConfigurer extends AbstractWebSocketMessageBrokerConfigu
         stompEndpointRegistry
                 .addEndpoint(webSocketProperties.getEndPoint())
                 .setAllowedOriginPatterns(webSocketProperties.getAllowedOrigins())
+                .addInterceptors(authHandshakeInterceptor)
                 .withSockJS();
         stompEndpointRegistry.setErrorHandler(new StompSubProtocolErrorHandler());
     }
@@ -59,7 +64,6 @@ public class KdWebSocketConfigurer extends AbstractWebSocketMessageBrokerConfigu
         taskScheduler.setThreadNamePrefix("wss-heartbeat-thread-");
         taskScheduler.setDaemon(true);
         taskScheduler.initialize();
-        
         // 服务端发送消息给客户端的域,多个用逗号隔开
         registry.enableSimpleBroker(webSocketProperties.getEnableSimpleBroker())
                 // 定义心跳间隔 单位(ms)
